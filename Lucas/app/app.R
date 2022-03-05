@@ -12,6 +12,7 @@ library(tidyverse)
 library(tidyr)
 
 df <- read_csv('vgsales.csv')
+df2 <- readRDS('data_jeux_2.rds')
 
 df <- df  %>% 
   mutate(Platform = as.factor(Platform)) %>% 
@@ -21,7 +22,7 @@ df <- df  %>%
 
 
 # Define UI for application that draws a histogram
-ui <- fluidPage(
+ui <- fluidPage(  
 
     # Application title
     titlePanel("Video Games"),
@@ -100,7 +101,8 @@ ui <- fluidPage(
                   )
                 )
               )
-      )
+      ),
+    theme = shinythemes::shinytheme('superhero')
     )
     # Sidebar with a slider input for number of bins 
 
