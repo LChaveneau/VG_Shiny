@@ -7,6 +7,9 @@ output: html_document
 
 ```{r}
 library(reticulate)
+library(tidyverse)
+library(tidyr)
+library(DT)
 ```
 
 ```{r}
@@ -32,6 +35,67 @@ np <- import('bs4', as = 'bs')
 
 
 
+########################## Table databale ############################
 
 
 
+```{r}
+data <- readRDS('data_jeux.rds')
+```
+
+
+```{r}
+data[1:3,1:3] %>% datatable(rownames = T,
+                            extensions = c('Select'),
+                            selection = "first",
+                            options = list(
+                              select = list(style = 'os', items = 'row'), 
+                              dom = 't',
+                              ordering = F)) 
+```
+
+
+```{r}
+ paste0('<img alt="Air Hockey Android Front Cover" border="0" src="https://www.mobygames.com/images/covers/s/264995-air-hockey-android-front-cover.jpg" height="120" width="120">')
+```
+
+
+
+
+```{r}
+data[1,1:3] %>%
+  mutate(image =  paste0("<img src=\"", src="https://www.mobygames.com/images/covers/s/264995-air-hockey-android-front-cover.jpg", "\" height=\"80\" data-toggle=\"tooltip\" data-placement=\"right\" title=\"", "bijo", "\"></img>")) %>% 
+  datatable(escape = F)
+```
+ src="/images/covers/l/264995-air-hockey-android-front-cover.png"
+ 
+ Il risque peut etre d'avoir des problème pour la selection lorsq'uon passera sur server. Peut etre utilisé `reactable`
+ 
+```{r}
+data[1:3,1:3] %>% datatable(rownames = T,
+                            extensions = c('Select'),
+                            selection = "first",
+                            options = list(
+                              select = list(style = 'os', items = 'row'), 
+                              dom = 't',
+                              ordering = F)) 
+```
+ 
+```{r}
+data[2,]
+```
+ 
+```{r}
+data[,1:3] %>% slice(1:3) %>%
+        select(everything()) %>% 
+        datatable(rownames = F,
+                  extensions = c('Select'),
+                  selection = "single",
+                  options = list(
+                    select = list(style = 'os', items = 'row'), 
+                    dom = 't',
+                    ordering = F),
+                  escape = F) 
+```
+ 
+ 

@@ -10,9 +10,10 @@
 library(shiny)
 library(tidyverse)
 library(tidyr)
+library(DT)
 
 df <- read_csv('vgsales.csv')
-df2 <- readRDS('data_jeux_2.rds')
+df2 <- readRDS('data_jeux.rds')
 
 df <- df  %>% 
   mutate(Platform = as.factor(Platform)) %>% 
@@ -82,6 +83,11 @@ ui <- fluidPage(
       tabPanel("Recommandation",
               sidebarLayout(
                 sidebarPanel(
+                  radioButtons("type_recommandation",
+                               label = h3("Préférence par :"),
+                               choices = list("Popularité" = "Popularite", "Ventes" = "Vente"), 
+                               selected = "Popularite", 
+                               inline = TRUE),
                   sliderInput("years3",
                               "Annee :",
                               min = 1980,
@@ -93,16 +99,18 @@ ui <- fluidPage(
                               selected = "--"),
                   selectInput("genre1", label = h3("Type"), 
                               choices = c("--", as.list(levels(df$Genre))),
-                              selected = "--"),
-                  
+                              selected = "--")
                 ),
                 mainPanel(
-                  tableOutput("Tablo")
+                  DTOutput("Tablo")
                   )
-                )
-              )
+                ),
+              verbatimTextOutput('desc'),
+              DTOutput("tablotest")
+              ),
+      tabPanel("Recherche")
       ),
-    theme = shinythemes::shinytheme('superhero')
+    theme = shinythemes::shinytheme('united')
     )
     # Sidebar with a slider input for number of bins 
 
@@ -163,25 +171,58 @@ server <- function(input, output) {
         geom_col() + 
         coord_flip()
     })
-    output$Tablo <- renderTable({
-      
-      tablo <-df %>%
-        filter(as.numeric(as.character(Year)) >= input$years3[1]) %>%
-        filter(as.numeric(as.character(Year)) <= input$years3[2])
-      
-      if(input$plateform1 != "--"){
-        tablo <- tablo %>% 
-          filter(Platform == input$plateform1)
+    output$Tablo <- renderDT({
+      ####### PAR SALES ########3
+        if(input$type_recommandation == "Vente"){
+
+        image <- paste0("<img src=\"", src="https://www.mobygames.com/images/covers/s/264995-air-hockey-android-front-cover.jpg", "\" height=\"30\" data-toggle=\"tooltip\" data-placement=\"right\" title=\"", "bijo", "\"></img>")
+        
+        tablo <-df %>%
+          filter(as.numeric(as.character(Year)) >= input$years3[1]) %>%
+          filter(as.numeric(as.character(Year)) <= input$years3[2])
+        
+        if(input$plateform1 != "--"){
+          tablo <- tablo %>% 
+            filter(Platform == input$plateform1)
+          }
+        if(input$genre1 != "--"){
+          tablo <- tablo %>% 
+            filter(Genre == input$genre1)
         }
-      if(input$genre1 != "--"){
-        tablo <- tablo %>% 
-          filter(Genre == input$genre1)
-      }
-      tablo %>% 
-        slice(1:3) %>% 
-        select("Name":"Publisher")
+        best_choice_tableau <- tablo %>% 
+          slice(1:3) %>% 
+          select("Name":"Publisher") %>% 
+          mutate(picture = c(image, image, image)) %>% 
+          datatable(rownames = F,
+                    extensions = c('Select'),
+                    selection = "single",
+                    options = list(
+                      select = list(style = 'os', items = 'row'), 
+                      dom = 't',
+                      ordering = F),
+                    escape = F) 
+        }
+      ###############PAR POPULARITE############
+    if(input$type_recommandation == "Popularite"){
+      best_choice_tableau <- df2[,1:3] %>% slice(1:3) %>%
+        select(everything()) %>% 
+        datatable(rownames = F,
+                  extensions = c('Select'),
+                  selection = "single",
+                  options = list(
+                    select = list(style = 'os', items = 'row'), 
+                    dom = 't',
+                    ordering = F),
+                  escape = F)
     }
-    )
+      best_choice_tableau
+    })
+    
+     output$desc <- renderPrint({
+       cat(paste(input$Tablo_row_last_clicked))
+       cat(paste(input$type_recommandation))
+     })
+     output$tablotest <- renderDT({input$Tablo})
 }
 
 # Run the application 
