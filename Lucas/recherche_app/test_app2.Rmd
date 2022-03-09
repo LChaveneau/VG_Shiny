@@ -5,9 +5,33 @@ date: "05/03/2022"
 output: html_document
 ---
 
+```{r}
+library(reticulate)
+```
+
+```{r}
+py_install('bs4')
+py_install('requests')
+```
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Recherche d'optimisation 
+# Python
+
+```{r}
+Sys.which("python")
+```
+
+
+```{r}
+np <- import('bs4', as = 'bs')
+```
+
+
+
+
+
 
