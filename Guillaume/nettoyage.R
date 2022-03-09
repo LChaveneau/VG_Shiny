@@ -73,6 +73,29 @@ saveRDS(data_final_2, file="data_jeux_2.rds")
 
 data<-readRDS("data_jeux_2.rds")
 
+## Platforme arrangement
+
+data_test<-data %>% separate(platform, c("a", "b", "c", "d"), sep=",")
+data_test<-rename.variable(data_test , "a", "platform")
+
+data_b<-data_test[!is.na(data_test$b),]
+data_b<-data_b[,c(1:5, 7, 10:19)]
+data_b<-rename.variable(data_b , "b", "platform")
+
+data_c<-data_test[!is.na(data_test$c),]
+data_c<-data_c[,c(1:5, 8, 10:19)]
+data_c<-rename.variable(data_c , "c", "platform")
+
+data_d<-data_test[!is.na(data_test$d),]
+data_d<-data_d[,c(1:5, 9:19)]
+data_d<-rename.variable(data_d , "d", "platform")
+
+
+data_test<-data_test[,c(1:6, 10:19)]
+
+data_test<-rbind(data_test, data_b, data_c, data_d)
+data<-data_test
+
 ### Add-on
 data<-data[is.na(data$add_on),]
 data<-data[,-c(4,9, 11:14)]
@@ -83,8 +106,17 @@ data<-rename.variable(data,"titre", "Name") #Rename pour que ce soit pareil que 
 
 
 ## Published
+
 data<-data[!is.na(data$published),]
 
+
+data$published<-gsub("Activision.*", "Activision", data$published)
+data$published<-gsub("Ubi.*", "Ubisoft", data$published)
+data$published<-gsub("SEGA.*", "SEGA", data$published)
+data$published<-gsub("Sony.*", "Sony", data$published)
+data$published<-gsub("KONAMI.*", "KONAMI", data$published)
+data$published<-gsub("Arts.*", " Arts", data$published)
+data$published<-gsub("Nintendo.*", "Nintendo", data$published)
 data$published<-gsub("Amiga.*", "Amiga", data$published)
 data$published<-gsub("AMC.*", "AMC", data$published)
 data$published<-gsub("Amber.*", "Amber", data$published)
@@ -96,15 +128,18 @@ data$published<-gsub("Alpha .*", "Alpha", data$published)
 data$published<-gsub("Alliance .*", "Alliance", data$published)
 data$published<-gsub("Alien .*", "Alien", data$published)
 
-table(data$published) %>% 
+data<-data %>% separate(published, c("Publisher", "b"), sep=",")
+data<-data[,-4]
+
+table(data$Publisher) %>% 
   as.data.frame() %>% 
   arrange(desc(Freq))
 
-data<-rename.variable(data, "published", "Publisher")
 
 
 ## Platform
 
+data$platform<-gsub("^\\s+|\\s+$", "", data$platform) 
 data<-data[!is.na(data$platform),]
 
 # Remove
@@ -134,7 +169,7 @@ data$reviews<-round(data$reviews, 2)
 
 data$released<-str_replace(data$released, ".*,", "")
 data$released<-str_replace(data$released, " ", "")
-data<-rename.variable(data,"released", "Année")
+data<-rename.variable(data,"released", "Annee")
 
 #Licensed
 data$misc<-ifelse(is.na(data$misc), 0, 1)
@@ -145,7 +180,6 @@ data<-rename.variable(data,"misc", "Licence")
 
 data<-data[!is.na(data$genre),]
 
-unique(data$genre)
 
 data <- data %>% mutate(Action = str_detect(data$genre, "Action"))
 data <- data %>% mutate(Aventure = str_detect(data$genre, "Adventure"))
@@ -165,6 +199,8 @@ data<-data[,-6]
 ##Desc
 
 data<-rename.variable(data, "desc", 'Description')
+data$Description<-gsub(".*(blurbs)","",data$Description)
+
 
 ## Setting
 
@@ -189,8 +225,8 @@ data<-data[,-6]
 cols <- sapply(data, is.logical)
 data[,cols] <- lapply(data[,cols], as.numeric)
 
-data <- data[order(data$Année, decreasing=TRUE ),] 
+saveRDS(data, "data_jeux.rds")
 
-
+data <- data[order(data$Annee, decreasing=TRUE ),] 
 
 
