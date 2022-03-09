@@ -22,6 +22,11 @@ df <- df  %>%
   mutate(Publisher = as.factor(Publisher))
 
 
+df2 <- df2  %>% 
+  mutate(Publisher = as.factor(Publisher)) %>% 
+  mutate(Annee = as.factor(Annee)) %>% 
+  mutate(platform = as.factor(platform))
+
 # Define UI for application that draws a histogram
 ui <- fluidPage(  
 
@@ -95,10 +100,10 @@ ui <- fluidPage(
                               value = c(1980,2017)),
                   
                   selectInput("plateform1", label = h3("Plateform"), 
-                              choices = c("--", as.list(levels(df$Platform))),
+                              choices = c("--", as.list(levels(df2$Platform))),
                               selected = "--"),
                   selectInput("genre1", label = h3("Type"), 
-                              choices = c("--", as.list(levels(df$Genre))),
+                              choices = c("--", as.list(levels(df2$Genre))),
                               selected = "--")
                 ),
                 mainPanel(
@@ -135,6 +140,59 @@ server <- function(input, output) {
       )
     
   })
+  
+  observe({
+    input$type_recommandation
+
+    if(input$type_recommandation == "Vente"){
+
+      updateSliderInput(
+        inputId = "years3",
+        min = 1980,
+        max = 2017,
+        value = c(1980,2017)
+        )
+
+      updateSelectInput(
+        inputId = "plateform1",
+        choices = c("--", as.list(levels(df$Platform))),
+        selected = "--"
+      )
+
+      updateSelectInput(inputId = "genre1",
+                        choices = c("--", as.list(levels(df$Genre))),
+                        selected = "--")
+    }
+    if(input$type_recommandation == "Popularite"){
+      updateSliderInput(
+        inputId = "years3",
+        min = 1950,
+        max = 2022,
+        value = c(1950,2022)
+      )
+
+      updateSelectInput(
+        inputId = "plateform1",
+        choices = c("--", as.list(levels(df2$platform))),
+        selected = "--"
+      )
+      updateSelectInput(inputId = "genre1",
+                        choices = c("--",
+                                    "Action",
+                                    "Aventure",
+                                    "Puzzle",
+                                    "Racing",
+                                    "Educational",
+                                    "Compilation",
+                                    "Simulation",
+                                    "Sports",
+                                    "Strategie",
+                                    "Role_play",
+                                    "Edition_special",
+                                    "DLC"),
+                        selected = "--")
+    }
+    })
     
   variable <- reactive({switch(input$var,
                                "Publisher" = df$Publisher, 
