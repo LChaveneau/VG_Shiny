@@ -11,6 +11,7 @@ library(shiny)
 library(tidyverse)
 library(tidyr)
 library(DT)
+library()
 
 df <- read_csv('vgsales.csv')
 df2 <- readRDS('data_jeux.rds')
@@ -113,7 +114,30 @@ ui <- fluidPage(
               verbatimTextOutput('desc'),
               DTOutput("tablotest")
               ),
-      tabPanel("Recherche")
+      tabPanel("Recherche", 
+               selectizeInput("Test",
+                              label = h3('Test'),
+                              choices = c(
+                                          "Action",
+                                          "Aventure",
+                                          "Puzzle",
+                                          "Racing",
+                                          "Educational",
+                                          "Compilation",
+                                          "Simulation",
+                                          "Sports",
+                                          "Strategie",
+                                          "Role_play",
+                                          "Edition_special",
+                                          "DLC"),
+                              multiple = TRUE,
+                              options = list(dropdownParent = 'body', 
+                                             maxitems = 'null', 
+                                             plugins = list("remove_button"),
+                                             highlight = F,
+                                             closeAfterSelect = T)
+                              )
+               )
       ),
     theme = shinythemes::shinytheme('united')
     )
