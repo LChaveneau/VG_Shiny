@@ -116,4 +116,99 @@ levels(data$platform)
 c(colnames(data))
 ```
  
+```{r}
+data %>%arrange(desc(reviews)) %>% slice(1:3) %>% select(Name, reviews)
+```
  
+```{r}
+tablo <-data %>%
+  filter(as.numeric(as.character(Annee)) >= 1980) %>%
+  filter(as.numeric(as.character(Annee)) <= 1950)
+```
+ 
+```{r}
+tablo <- data
+tablo %>% 
+    filter( ==1)
+```
+
+```{r}
+variable_genre <- reactive({switch(
+    genre1,
+    "Action" = df2$Action,
+    "Aventure" = df2$Aventure,
+    "Puzzle" = df2$Puzzle,
+    "Racing" = df2$Racing,
+    "Education" = df2$Educational,
+    "Compilation" = df2$Compilation,
+    "Simulation" = df2$Simulation,
+    "Sports" = df2$Sports,
+    "Strategie" = df2$Strategie,
+    "Role_play" = df2$Role_play,
+    "Edition_special" = df2$Edition_special,
+    "DLC" = df2$DLC)
+  }) 
+```
+
+```{r}
+genre1 = c('Action', 'Aventure')
+```
+
+```{r}
+liste = NULL
+for (element in genre1){
+  liste = c(liste, element)
+}
+```
+
+
+```{r}
+
+switch_manuel <- function(x){switch(x, "2" = "2", "3" = "3")}
+sapply(c("2","3"), switch_manuel)
+```
+
+```{r}
+data %>% 
+  mutate(choix = data %>% select(c(Action, Puzzle)) %>% rowSums()) %>% 
+  filter(choix > 0)
+
+data %>% 
+  mutate(choix = rowSums(select(data$Troisieme_personne, data$Derriere)))
+
+data %>% 
+  filter(rowwise(c(data$Strategie, data$Sports)) > 0)
+
+data %>% 
+  filter(rowsum(Action, Puzzle) > 0)
+
+data %>% 
+  mutate(truc = rowwise(Action))
+```
+
+```{r}
+
+```
+
+
+```{r}
+mutate(data, choix = select(data, ))
+```
+
+```{r}
+select(data$Action)
+```
+
+```{r}
+paste0('df')
+```
+```{r}
+data %>% 
+  rowwise() %>% 
+  mutate(truc = sum(c(data$Action, data$Puzzle)))
+```
+
+```{r}
+mutate(data, )
+```
+
