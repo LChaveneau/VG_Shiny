@@ -229,4 +229,12 @@ saveRDS(data, "data_jeux.rds")
 
 data <- data[order(data$Annee, decreasing=TRUE ),] 
 
+###############################################################
+###############################################################
+
+data<-readRDS("data_jeux.rds")
+
+library(ggplot2)
+data[data$Puzzle==1,] %>% ggplot(aes(x=Puzzle, y=..count..)) + geom_bar()
+
 
