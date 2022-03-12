@@ -202,7 +202,6 @@ server <- function(input, output) {
   ###################################### EVENT REACTIVE #######################################
   #############################################################################################
   
-  #input$Tablo_rows_selected<- reactive(input$Tablo, {NULL})
   
   #############################################################################################
   ###################################### OBSERVE ##############################################
@@ -316,8 +315,7 @@ server <- function(input, output) {
           filter(Genre == input$genre1)
       }
       best_choice_tableau <- tablo %>% 
-        slice(1:3) %>% 
-        select("Name":"Publisher") 
+        slice(1:3)
         #mutate(picture = c(image, image, image)) %>% 
     }
     
@@ -396,21 +394,38 @@ server <- function(input, output) {
         coord_flip()
     })
   output$Tablo <- renderDT({
-    tablo() %>% 
-      select(Name, Publisher, Annee, platform) %>% 
-      datatable(rownames = F,
-                extensions = c('Select'),
-                selection = "single",
-                options = list(
-                  select = list(style = 'os', items = 'row'), 
-                  dom = 't',
-                  ordering = F),
-                escape = F)
+    if(input$type_recommandation == "Vente"){
+      tablo() %>% 
+        select("Name":"Publisher") %>% 
+        datatable(rownames = F,
+                  extensions = c('Select'),
+                  selection = "single",
+                  options = list(
+                    select = list(style = 'os', items = 'row'), 
+                    dom = 't',
+                    ordering = F),
+                  escape = F)
+    }
+    
+    if(input$type_recommandation == "Popularite"){
+      tablo() %>% 
+        select(Name, Publisher, Annee, platform) %>% 
+        datatable(rownames = F,
+                  extensions = c('Select'),
+                  selection = "single",
+                  options = list(
+                    select = list(style = 'os', items = 'row'), 
+                    dom = 't',
+                    ordering = F),
+                  escape = F)
+    }
     })
     
   output$desc <- renderText(expr = {
        # cat(paste(input$Tablo_row_last_clicked))
        # cat(paste(input$type_recommandation))
+    
+    if(is.null(input$Tablo_rows_selected) == FALSE){
        desc <- tablo() %>% 
          slice(input$Tablo_rows_selected) %>% 
          pull(Description)
@@ -424,13 +439,16 @@ server <- function(input, output) {
                 str_to_sentence() %>% 
                 str_replace_all("\n", "<br>"), 
               "</p>")
-       })
+    }
+    })
      output$desc2 <- renderPrint({
        print(input$Tablo_rows_selected)
      })
      
      output$image <- renderText({
+       if(is.null(input$Tablo_rows_selected) == FALSE){
        paste0("<img src=\"", src="https://www.mobygames.com/images/covers/s/264995-air-hockey-android-front-cover.jpg", "\" height=\"150\" data-toggle=\"tooltip\" data-placement=\"center\" title=\"", "bijo", "\"></img>")
+       }
      })
 
 }
