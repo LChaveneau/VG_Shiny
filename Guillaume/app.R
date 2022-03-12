@@ -8,9 +8,11 @@
 #
 
 library(shiny)
+library(plotly)
+library(DT)
 library(tidyverse)
 library(tidyr)
-library(DT)
+library(questionr)
 library(leaflet)
 library(shinythemes)
 library(questionr)
@@ -99,7 +101,7 @@ ui <- fluidPage(
                                      h4(strong("Representation graphique:")),
                                      plotlyOutput("Hist"),
                                      h4(strong("Repartition des types de jeux en fonction du choix particulier:")),
-                                     DTOutput("myTable")
+                                     DTOutput("myTable"),
                                    )
                                  )
                         ),
@@ -136,7 +138,7 @@ ui <- fluidPage(
                                              selected = "NES"),
                                  DTOutput("Table"),
                                  leafletOutput("map_vente"))
-                                 
+                        
                       )
              ),  
              tabPanel("Recommandation",
@@ -285,14 +287,14 @@ server <- function(input, output, session) {
   })
   
   output$Hist <- renderPlotly({
-    fct_count(variable()[data$Year == input$years], sort = T) %>%
+    fct_count(variable()[df2$Year == input$years], sort = T) %>%
       slice(1:10)  %>%
       plot_ly(
         source = "myClickSource",
         x =  ~ n,
         y =  ~ fct_reorder(f, n),
         type = "bar",
-        orientation = "h") %>% layout(title=paste("Nombre de jeux par", input$var),
+        orientation = "h") %>% layout(title=paste("Nombre de jeu par", input$var),
                                       xaxis= list(title="Nombre de jeux"),
                                       yaxis = list(title=input$var)) %>%
       config(displayModeBar=FALSE)
@@ -317,38 +319,38 @@ server <- function(input, output, session) {
            "Educational", "Compilation","Sports", "Strategie", "Role_play")
     
     if (input$var=="Publisher"){
-      vect<-c(sum(data$Action[data$Publisher==SelectedBar() & data$Year==input$years]==1),
-              sum(data$Aventure[data$Publisher==SelectedBar() & data$Year==input$years]==1),
-              sum(data$Puzzle[data$Publisher==SelectedBar() & data$Year==input$years]==1),
-              sum(data$Simulation[data$Publisher==SelectedBar() & data$Year==input$years]==1),
-              sum(data$Racing[data$Publisher==SelectedBar() & data$Year==input$years]==1),
-              sum(data$Educational[data$Publisher==SelectedBar() & data$Year==input$years]==1),
-              sum(data$Compilation[data$Publisher==SelectedBar() & data$Year==input$years]==1),
-              sum(data$Sports[data$Publisher==SelectedBar() & data$Year==input$years]==1),
-              sum(data$Strategie[data$Publisher==SelectedBar() & data$Year==input$years]==1),
-              sum(data$Role_play[data$Publisher==SelectedBar() & data$Year==input$years]==1))
+      vect<-c(sum(df2$Action[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
+              sum(df2$Aventure[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
+              sum(df2$Puzzle[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
+              sum(df2$Simulation[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
+              sum(df2$Racing[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
+              sum(df2$Educational[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
+              sum(df2$Compilation[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
+              sum(df2$Sports[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
+              sum(df2$Strategie[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
+              sum(df2$Role_play[df2$Publisher==SelectedBar() & df2$Year==input$years]==1))
       
       updateTextInput(session,
                       "choixui2",
-                      value = round(mean(data$reviews[!is.na(data$reviews) & data$Publisher==SelectedBar() & data$Year==input$years]),3)
+                      value = round(mean(df2$reviews[!is.na(df2$reviews) & df2$Publisher==SelectedBar() & df2$Year==input$years]),3)
       )
       
     }
     if (input$var=="platform"){
-      vect<-c(sum(data$Action[data$platform==SelectedBar() & data$Year==input$years]==1),
-              sum(data$Aventure[data$platform==SelectedBar() & data$Year==input$years]==1),
-              sum(data$Puzzle[data$platform==SelectedBar() & data$Year==input$years]==1),
-              sum(data$Simulation[data$platform==SelectedBar() & data$Year==input$years]==1),
-              sum(data$Racing[data$platform==SelectedBar() & data$Year==input$years]==1),
-              sum(data$Educational[data$platform==SelectedBar() & data$Year==input$years]==1),
-              sum(data$Compilation[data$platform==SelectedBar() & data$Year==input$years]==1),
-              sum(data$Sports[data$platform==SelectedBar() & data$Year==input$years]==1),
-              sum(data$Strategie[data$platform==SelectedBar() & data$Year==input$years]==1),
-              sum(data$Role_play[data$platform==SelectedBar() & data$Year==input$years]==1))
+      vect<-c(sum(df2$Action[df2$platform==SelectedBar() & df2$Year==input$years]==1),
+              sum(df2$Aventure[df2$platform==SelectedBar() & df2$Year==input$years]==1),
+              sum(df2$Puzzle[df2$platform==SelectedBar() & df2$Year==input$years]==1),
+              sum(df2$Simulation[df2$platform==SelectedBar() & df2$Year==input$years]==1),
+              sum(df2$Racing[df2$platform==SelectedBar() & df2$Year==input$years]==1),
+              sum(df2$Educational[df2$platform==SelectedBar() & df2$Year==input$years]==1),
+              sum(df2$Compilation[df2$platform==SelectedBar() & df2$Year==input$years]==1),
+              sum(df2$Sports[df2$platform==SelectedBar() & df2$Year==input$years]==1),
+              sum(df2$Strategie[df2$platform==SelectedBar() & df2$Year==input$years]==1),
+              sum(df2$Role_play[df2$platform==SelectedBar() & df2$Year==input$years]==1))
       
       updateTextInput(session,
                       "choixui2",
-                      value = round(mean(data$reviews[!is.na(data$reviews) & data$platform==SelectedBar() & data$Year==input$years]),3)
+                      value = round(mean(df2$reviews[!is.na(df2$reviews) & df2$platform==SelectedBar() & df2$Year==input$years]),3)
       ) 
     }
     
@@ -371,6 +373,7 @@ server <- function(input, output, session) {
     vect_bis
     
   })
+  
   
   output$SalesHist <- renderPlot({
     df %>% 
