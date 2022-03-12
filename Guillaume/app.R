@@ -14,6 +14,7 @@ library(DT)
 library(leaflet)
 library(shinythemes)
 library(questionr)
+library(plotly)
 
 df <- read_csv('vgsales.csv')
 df2 <- readRDS('data_jeux.rds')

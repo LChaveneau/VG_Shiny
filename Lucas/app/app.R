@@ -11,7 +11,6 @@ library(shiny)
 library(tidyverse)
 library(tidyr)
 library(DT)
-library()
 
 df <- read_csv('vgsales.csv')
 df2 <- readRDS('data_jeux.rds')
@@ -447,7 +446,7 @@ server <- function(input, output) {
      
      output$image <- renderText({
        if(is.null(input$Tablo_rows_selected) == FALSE){
-       paste0("<img src=\"", src="https://www.mobygames.com/images/covers/s/264995-air-hockey-android-front-cover.jpg", "\" height=\"150\" data-toggle=\"tooltip\" data-placement=\"center\" title=\"", "bijo", "\"></img>")
+       paste0("<img alt=\"007: James Bond - The Stealth Affair DOS Front Cover\" border=\"0\" height=\"150\" src=\"/images/covers/s/261101-007-james-bond-the-stealth-affair-dos-front-cover.jpg\" width=\"120\"/>")
        }
      })
 

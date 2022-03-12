@@ -32,6 +32,7 @@ class Jeu_video:
         self.set_reviews(soupe)
         self.set_reste(soupe)
         self.set_desc(soupe)
+        self.set_image(soupe)
 
     def __str__(self):
         return f"""
@@ -51,6 +52,7 @@ add-on          : {self.add_on}
 visual          : {self.visual}
 misc            : {self.misc}
 description     : {self.desc}
+image           : {self.image}
 """
     
     def set_titre(self, soupe):
@@ -171,6 +173,12 @@ description     : {self.desc}
             self.platform = valeur.strip()
         else:
             pass
+
+    def set_image(self, soupe):
+        """Affecte la balise html de l'image"""
+        fenetre, *_ = soupe.find_all(attrs={'id': ['floatholder coreGameInfo']})
+        image, *_ = fenetre.find_all('img')
+        self.image = str(image)
     
     def to_json(self):
         """Renvoit une chaine pour stocker le résultat en json."""
