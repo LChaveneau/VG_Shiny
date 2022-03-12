@@ -28,21 +28,24 @@ df2 <- df2  %>%
   mutate(Annee = as.factor(Annee)) %>% 
   mutate(platform = as.factor(platform))
 
-switch_vector <- function(x){switch(
-  x,
-  "Action" = df2$Action,
-  "Aventure" = df2$Aventure,
-  "Puzzle" = df2$Puzzle,
-  "Racing" = df2$Racing,
-  "Education" = df2$Educational,
-  "Compilation" = df2$Compilation,
-  "Simulation" = df2$Simulation,
-  "Sports" = df2$Sports,
-  "Strategie" = df2$Strategie,
-  "Role_play" = df2$Role_play,
-  "Edition_special" = df2$Edition_special,
-  "DLC" = df2$DLC)
-}
+
+# ## NOT RUN and TO DELETE AT THE END ->>>>>
+# switch_vector <- function(x){switch(
+#   x,
+#   "Action" = df2$Action,
+#   "Aventure" = df2$Aventure,
+#   "Puzzle" = df2$Puzzle,
+#   "Racing" = df2$Racing,
+#   "Education" = df2$Educational,
+#   "Compilation" = df2$Compilation,
+#   "Simulation" = df2$Simulation,
+#   "Sports" = df2$Sports,
+#   "Strategie" = df2$Strategie,
+#   "Role_play" = df2$Role_play,
+#   "Edition_special" = df2$Edition_special,
+#   "DLC" = df2$DLC)
+# }
+# >>>>>>
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(  
@@ -153,8 +156,15 @@ ui <- fluidPage(
                   DTOutput("Tablo")
                   )
                 ),
-              verbatimTextOutput('desc'),
-              DTOutput("tablotest")
+              fluidRow(
+                column(4, 
+                      htmlOutput("image")
+                       ),
+                column(8,
+                       htmlOutput('desc'),
+                       verbatimTextOutput('desc2')
+              )
+              )
               ),
       tabPanel("Recherche", 
                selectizeInput("Test",
@@ -187,6 +197,12 @@ ui <- fluidPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
+  
+  #############################################################################################
+  ###################################### EVENT REACTIVE #######################################
+  #############################################################################################
+  
+  #input$Tablo_rows_selected<- reactive(input$Tablo, {NULL})
   
   #############################################################################################
   ###################################### OBSERVE ##############################################
@@ -276,6 +292,60 @@ server <- function(input, output) {
     }
     })
   
+  #############################################################################################
+  ###################################### REACTIVE #############################################
+  #############################################################################################
+  
+  tablo <- reactive({
+    
+    ####### PAR SALES ########
+    if(input$type_recommandation == "Vente"){
+      
+      image <- paste0("<img src=\"", src="https://www.mobygames.com/images/covers/s/264995-air-hockey-android-front-cover.jpg", "\" height=\"30\" data-toggle=\"tooltip\" data-placement=\"right\" title=\"", "bijo", "\"></img>")
+      
+      tablo <- df %>%
+        filter(as.numeric(as.character(Year)) >= input$years3[1]) %>%
+        filter(as.numeric(as.character(Year)) <= input$years3[2])
+      
+      if(is.null(input$plateform1) == FALSE){
+        tablo <- tablo %>% 
+          filter(Platform == input$plateform1)
+      }
+      if(is.null(input$genre1) == FALSE){
+        tablo <- tablo %>% 
+          filter(Genre == input$genre1)
+      }
+      best_choice_tableau <- tablo %>% 
+        slice(1:3) %>% 
+        select("Name":"Publisher") 
+        #mutate(picture = c(image, image, image)) %>% 
+    }
+    
+    ###############PAR POPULARITE############
+    if(input$type_recommandation == "Popularite"){
+      
+      tablo <-df2 %>%
+        filter(as.numeric(as.character(Annee)) >= input$years3[1]) %>%
+        filter(as.numeric(as.character(Annee)) <= input$years3[2])
+      
+      if(is.null(input$plateform1) == FALSE){
+        tablo <- tablo %>% 
+          filter(platform == input$plateform1)
+      }
+      
+      if(is.null(input$genre1) == FALSE){
+        tablo <- tablo %>% 
+          filter(tablo[input$genre1] %>% rowSums() > 0)
+      }
+      
+      best_choice_tableau <- tablo %>% 
+        arrange(reviews) %>% 
+        slice(1:3)
+    }
+    best_choice_tableau
+    
+  })
+  
   ####################################################################################
   ####################### Reactive SWITCH ###########################################
   ####################################################################################
@@ -292,9 +362,11 @@ server <- function(input, output) {
                                "Name" = df$Name)
   })
   
-  variable_genre <- reactive({
-    sapply(input$genre1, switch_vector)
-  }) 
+  # ###### NOT RUN AND TO DELETE AT THE END >>>>>>
+  # variable_genre <- reactive({
+  #   sapply(input$genre1, switch_vector)
+  # }) 
+  # >>>>>>>>>>
   
   ###################################################################################
   ############################## OUTPUT #############################################
@@ -324,76 +396,43 @@ server <- function(input, output) {
         coord_flip()
     })
   output$Tablo <- renderDT({
-    
-      ####### PAR SALES ########
-        if(input$type_recommandation == "Vente"){
-
-        image <- paste0("<img src=\"", src="https://www.mobygames.com/images/covers/s/264995-air-hockey-android-front-cover.jpg", "\" height=\"30\" data-toggle=\"tooltip\" data-placement=\"right\" title=\"", "bijo", "\"></img>")
-        
-        tablo <- df %>%
-          filter(as.numeric(as.character(Year)) >= input$years3[1]) %>%
-          filter(as.numeric(as.character(Year)) <= input$years3[2])
-        
-        if(is.null(input$plateform1) == FALSE){
-          tablo <- tablo %>% 
-            filter(Platform == input$plateform1)
-          }
-        if(is.null(input$genre1) == FALSE){
-          tablo <- tablo %>% 
-            filter(Genre == input$genre1)
-        }
-        best_choice_tableau <- tablo %>% 
-          slice(1:3) %>% 
-          select("Name":"Publisher") %>% 
-          #mutate(picture = c(image, image, image)) %>% 
-          datatable(rownames = F,
-                    extensions = c('Select'),
-                    selection = "single",
-                    options = list(
-                      select = list(style = 'os', items = 'row'), 
-                      dom = 't',
-                      ordering = F),
-                    escape = F) 
-        }
-    
-      ###############PAR POPULARITE############
-    if(input$type_recommandation == "Popularite"){
-      
-      tablo <-df2 %>%
-        filter(as.numeric(as.character(Annee)) >= input$years3[1]) %>%
-        filter(as.numeric(as.character(Annee)) <= input$years3[2])
-      
-      if(is.null(input$plateform1) == FALSE){
-        tablo <- tablo %>% 
-          filter(platform == input$plateform1)
-      }
-      
-      if(is.null(input$genre1) == FALSE){
-        tablo <- data %>%
-          filter(data %>% select(as.vector(variable_genre())) %>% rowSums() > 0)
-      }
-      
-      best_choice_tableau <- tablo %>% 
-        arrange(reviews) %>% 
-        slice(1:3) %>%
-        select(Name, Publisher, Annee, platform) %>% 
-        datatable(rownames = F,
-                  extensions = c('Select'),
-                  selection = "single",
-                  options = list(
-                    select = list(style = 'os', items = 'row'), 
-                    dom = 't',
-                    ordering = F),
-                  escape = F)
-    }
-      best_choice_tableau
+    tablo() %>% 
+      select(Name, Publisher, Annee, platform) %>% 
+      datatable(rownames = F,
+                extensions = c('Select'),
+                selection = "single",
+                options = list(
+                  select = list(style = 'os', items = 'row'), 
+                  dom = 't',
+                  ordering = F),
+                escape = F)
     })
     
-     output$desc <- renderPrint({
-       cat(paste(input$Tablo_row_last_clicked))
-       cat(paste(input$type_recommandation))
+  output$desc <- renderText(expr = {
+       # cat(paste(input$Tablo_row_last_clicked))
+       # cat(paste(input$type_recommandation))
+       desc <- tablo() %>% 
+         slice(input$Tablo_rows_selected) %>% 
+         pull(Description)
+       
+        paste("<h1>Description</h1>",
+              "<p>", 
+              desc %>% 
+                str_remove("\\[edit description\\]") %>% 
+                str_remove("\\[add description\\]") %>%
+                str_to_upper() %>% 
+                str_to_sentence() %>% 
+                str_replace_all("\n", "<br>"), 
+              "</p>")
+       })
+     output$desc2 <- renderPrint({
+       print(input$Tablo_rows_selected)
      })
-     output$tablotest <- renderDT({input$Tablo})
+     
+     output$image <- renderText({
+       paste0("<img src=\"", src="https://www.mobygames.com/images/covers/s/264995-air-hockey-android-front-cover.jpg", "\" height=\"150\" data-toggle=\"tooltip\" data-placement=\"center\" title=\"", "bijo", "\"></img>")
+     })
+
 }
 
 # Run the application 

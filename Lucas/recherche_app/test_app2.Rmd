@@ -212,3 +212,63 @@ data %>%
 mutate(data, )
 ```
 
+```{r}
+data <- as_tibble(data)
+```
+
+```{r}
+class(data)
+```
+```{r}
+data[c('Action', 'Puzzle')]
+```
+```{r}
+data[,c(data$Action, data$Puzzle)]
+```
+
+```{r}
+tablo <- data[1:100000,]
+```
+
+
+```{r}
+tablo %>% 
+  filter(tablo[c('Action', 'Puzzle')] %>% rowSums() > 0)
+```
+
+```{r}
+data %>% slice(numeric(1))
+numeric(1)
+```
+
+```{r}
+cat(data$Description[1])
+```
+```{r}
+description <- data %>% slice(3) %>% pull(Description)
+```
+
+```{r}
+paste0('<b>', description %>% str_replace("\n", "<br>"), '</b>')
+description %>% str_replace("\n", "<br>")
+```
+
+```{r}
+desc2 <- "Ndsqjdqso. jDIOQSJOSDQ.oids. "
+str_to_title(desc2)
+```
+
+```{r}
+str_to_sentence(desc2)
+```
+
+```{r}
+desc <- "\nTwo titles are available in this cart:\narmored encounter! is a clone of atari's combat. two players control tanks and try to shoot each other the most in a time limit of three minutes. each tank has 20 rounds of ammunition. the last three rounds will change color, warning the player the ammunition is low. this game offers 12 variations, selected by the alphanumeric keys:\n(pressing a): plays over open country using cannon.\n(pressing b): plays over hilly terrain (simple bars) with cannon.\n(pressing c): plays over mountainous terrain (complex barriers) with cannon.\n(pressing d): open country with guided missiles.\n(pressing e): simple barriers with guided missiles.\n(pressing f): complex barriers with guided missiles.\n(pressing g): plays over open country with minefields (represented by x's on the screen - if a tank hits one of them, a point is scored to the adversary) and cannon.\n(pressing h): simple barriers with minefields and cannon.\n(pressing i): complex barriers with minefields and cannon.\n(pressing j): open country - minefields - guided missiles.\n(pressing k): simple barriers - minefields - guided missiles.\n(pressing l): complex barriers - minefields - guided missiles.\n\n\nsub chase! features a hawk hunter-killer jet against a shark missile-launching submarine. one player controls the jet, which scrolls left, and the other controls the submarine, which scrolls right. while neutral ships sail on the water surface, the players have to shoot each other the most in a time limit of three minutes. each hit on the enemy scores one point to the player and each hit on the neutral vessels subtracts one point. there are three game variations, selected by the numeric keys:(pressing 1): guided missiles with rear launch pattern.\n(pressing 2): unguided missiles with rear launch pattern.\n(pressing 3): guided missiles with forward launch pattern.\n[edit description]"
+
+```
+
+
+```{r}
+desc %>% str_to_upper() %>% str_to_sentence()
+```
+
