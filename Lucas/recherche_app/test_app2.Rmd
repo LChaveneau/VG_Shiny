@@ -272,3 +272,22 @@ desc <- "\nTwo titles are available in this cart:\narmored encounter! is a clone
 desc %>% str_to_upper() %>% str_to_sentence()
 ```
 
+## Creation des noms de publisher 
+
+```{r}
+data$Publisher <- as.factor(data$Publisher)
+```
+
+```{r}
+truc = fct_count(data$Publisher, sort = T)[1:3500,1]
+```
+
+```{r}
+truc
+```
+
+
+```{r}
+write.csv(truc,"C:\\Users\\Lucas\\Documents\\M2\\S2\\Big data\\Lucas\\data\\publisher_to_scrap.csv", row.names = FALSE)
+```
+

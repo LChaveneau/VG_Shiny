@@ -28,6 +28,7 @@ df2 <- df2  %>%
   mutate(platform = as.factor(platform))
 
 
+
 # ## NOT RUN and TO DELETE AT THE END ->>>>>
 # switch_vector <- function(x){switch(
 #   x,
@@ -314,7 +315,7 @@ server <- function(input, output) {
           filter(Genre == input$genre1)
       }
       best_choice_tableau <- tablo %>% 
-        slice(1:3)
+        slice(1:7)
         #mutate(picture = c(image, image, image)) %>% 
     }
     
@@ -337,7 +338,7 @@ server <- function(input, output) {
       
       best_choice_tableau <- tablo %>% 
         arrange(reviews) %>% 
-        slice(1:3)
+        slice(1:7)
     }
     best_choice_tableau
     
@@ -392,32 +393,38 @@ server <- function(input, output) {
         geom_col() + 
         coord_flip()
     })
+  
   output$Tablo <- renderDT({
     if(input$type_recommandation == "Vente"){
-      tablo() %>% 
+      recommandation <- tablo() %>% 
         select("Name":"Publisher") %>% 
         datatable(rownames = F,
                   extensions = c('Select'),
                   selection = "single",
                   options = list(
                     select = list(style = 'os', items = 'row'), 
-                    dom = 't',
-                    ordering = F),
+                    dom = 'lt',
+                    ordering = F, 
+                    pageLength = 3, 
+                    lengthMenu = c(3, 5, 7)),
                   escape = F)
     }
     
     if(input$type_recommandation == "Popularite"){
-      tablo() %>% 
+      recommandation <- tablo() %>% 
         select(Name, Publisher, Annee, platform) %>% 
         datatable(rownames = F,
                   extensions = c('Select'),
                   selection = "single",
                   options = list(
                     select = list(style = 'os', items = 'row'), 
-                    dom = 't',
-                    ordering = F),
+                    dom = 'lt',
+                    ordering = F, 
+                    pageLength = 3, 
+                    lengthMenu = c(3, 5, 7)),
                   escape = F)
     }
+    recommandation
     })
     
   output$desc <- renderText(expr = {
@@ -425,6 +432,7 @@ server <- function(input, output) {
        # cat(paste(input$type_recommandation))
     
     if(is.null(input$Tablo_rows_selected) == FALSE){
+      if(input$type_recommandation == "Popularite"){
        desc <- tablo() %>% 
          slice(input$Tablo_rows_selected) %>% 
          pull(Description)
@@ -438,18 +446,21 @@ server <- function(input, output) {
                 str_to_sentence() %>% 
                 str_replace_all("\n", "<br>"), 
               "</p>")
+      }else{
+        paste()
+      }
     }
     })
      output$desc2 <- renderPrint({
        print(input$Tablo_rows_selected)
+       print(input$type_recommandation)
      })
      
      output$image <- renderText({
        if(is.null(input$Tablo_rows_selected) == FALSE){
-       paste0("<img alt=\"007: James Bond - The Stealth Affair DOS Front Cover\" border=\"0\" height=\"150\" src=\"/images/covers/s/261101-007-james-bond-the-stealth-affair-dos-front-cover.jpg\" width=\"120\"/>")
+       paste0("<img alt=\"007: James Bond - The Stealth Affair DOS Front Cover\" border=\"0\" height=\"150\" src=\"https://www.mobygames.com/images/covers/s/261101-007-james-bond-the-stealth-affair-dos-front-cover.jpg\" width=\"120\"/>")
        }
      })
-
 }
 
 # Run the application 
