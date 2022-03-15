@@ -286,8 +286,8 @@ truc = fct_count(data$Publisher, sort = T)[1:3500,1]
 truc
 ```
 
-
 ```{r}
-write.csv(truc,"C:\\Users\\Lucas\\Documents\\M2\\S2\\Big data\\Lucas\\data\\publisher_to_scrap.csv", row.names = FALSE)
+data <- readRDS('data_jeux_image.rds')
 ```
+
 
