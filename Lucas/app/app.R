@@ -162,7 +162,7 @@ ui <- fluidPage(
                        ),
                 column(8,
                        htmlOutput('desc'),
-                       verbatimTextOutput('desc2')
+                       htmlOutput('desc2')
               )
               )
               ),
@@ -434,7 +434,13 @@ server <- function(input, output) {
                     ordering = F, 
                     pageLength = 3, 
                     lengthMenu = c(3, 5, 7)),
-                  escape = F)
+                  escape = F) %>% 
+        ##### Hauteur ligne #######
+        formatStyle(
+          0,
+          target = 'row',
+          lineHeight='7'
+        )
     }
     recommandation
     })
@@ -459,13 +465,24 @@ server <- function(input, output) {
                 str_replace_all("\n", "<br>"), 
               "</p>")
       }else{
-        paste()
+        desc <- tablo() %>% 
+          slice(input$Tablo_rows_selected) %>% 
+          pull(Description)
+        
+        paste("<h1>Description</h1>",
+              "<p>", 
+              desc %>% 
+                str_remove_all("\\[.*?\\]") %>% 
+                str_to_upper() %>% 
+                str_to_sentence() %>% 
+                str_replace_all("\n", "<br>") %>%
+                str_remove("Gameplay"), 
+              "</p>")
       }
     }
     })
-     output$desc2 <- renderPrint({
-       print(input$Tablo_rows_selected)
-       print(input$type_recommandation)
+     output$desc2 <- renderText({
+       paste0(" ")
      })
      
      output$image <- renderText({       
@@ -474,13 +491,22 @@ server <- function(input, output) {
          image <- tablo() %>%
            slice(input$Tablo_rows_selected) %>%
            pull(image)
-       }
+         titre <- tablo() %>% 
+           slice(input$Tablo_rows_selected) %>%
+           pull(Name)
+         code_html <- paste0("<h1>",titre,"</h1>",image)
+         }
+         
+         
          if(input$type_recommandation == "Vente"){
-           image <- tablo() %>%
+           code_html <- tablo() %>%
              slice(input$Tablo_rows_selected) %>%
-             pull(tableau)           
+             pull(tableau) %>% 
+             str_replace("<a class=\"image\"", "<center><a class=\"image\"") %>% 
+             str_replace("/></a>", "/></a></center>") %>% 
+             str_replace("style=\"float: left;", "style=\"float: left; background-color: #F9ECDD;")
            }
-         paste0(image)
+         paste0(code_html)
        }
      })
 }
