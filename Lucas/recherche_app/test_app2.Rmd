@@ -341,7 +341,9 @@ data %>%
 
 ```{r}
 data[1,1:3] %>%
-  mutate(image =  paste0("<img src=\"", src="https://www.mobygames.com/images/covers/s/264995-air-hockey-android-front-cover.jpg", "\" height=\"80\" data-toggle=\"tooltip\" data-placement=\"right\" title=\"", "bijo", "\"></img>")) %>% 
+  mutate(image =  paste0("<img alt=\"007 Ice Racer ExEn Game splashscreen\" border=\"0\" height=\"80\" src=\"https://www.mobygames.com/images/shots/s/149436-007-ice-racer-exen-screenshot-game-splashscreen.jpg\" title=\"Missing cover image (using game screenshot)\" width=\"104\"/>")) %>% 
   datatable(escape = F)
 ```
+
+
 

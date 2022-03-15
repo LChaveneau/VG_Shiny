@@ -15,10 +15,7 @@ data <- data_jeux %>%
   left_join(image2, c("Name" = "titre"))
 
 
-saveRDS(data, file = "C:\\Users\\Lucas\\Documents\\M2\\S2\\Big data\\Lucas\\data\\data_jeux_image.rds")
-
-
 data <- data %>% mutate(image = image %>%
-                  str_replace('src=\"/', "src=\"https://www.mobygames.com/"))
+                          str_replace('src=\"/', "src=\"https://www.mobygames.com/"))
 
-data[1, 30]
+saveRDS(data, file = "C:\\Users\\Lucas\\Documents\\M2\\S2\\Big data\\Lucas\\data\\data_jeux_image.rds")

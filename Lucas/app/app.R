@@ -461,7 +461,6 @@ server <- function(input, output) {
          image <- tablo() %>%
            slice(input$Tablo_rows_selected) %>%
            pull(image)
-         image <- image %>% str_replace('src=\"/', "src=\"https://www.mobygames.com/")
          paste0(image)
        }
      })
