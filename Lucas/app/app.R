@@ -12,8 +12,8 @@ library(tidyverse)
 library(tidyr)
 library(DT)
 
-df <- read_csv('vgsales.csv')
-df2 <- readRDS('data_jeux.rds')
+df <- read_csv('vgsales2.csv')
+df2 <- readRDS('data_jeux_image.rds')
 
 df <- df  %>% 
   mutate(Platform = as.factor(Platform)) %>% 
@@ -300,7 +300,7 @@ server <- function(input, output) {
     ####### PAR SALES ########
     if(input$type_recommandation == "Vente"){
       
-      image <- paste0("<img src=\"", src="https://www.mobygames.com/images/covers/s/264995-air-hockey-android-front-cover.jpg", "\" height=\"30\" data-toggle=\"tooltip\" data-placement=\"right\" title=\"", "bijo", "\"></img>")
+      image <- paste0("<img alt=\"007 Ice Racer ExEn Game splashscreen\" border=\"0\" height=\"80\" src=\"/images/shots/s/149436-007-ice-racer-exen-screenshot-game-splashscreen.jpg\" title=\"Missing cover image (using game screenshot)\" width=\"104\"/>")
       
       tablo <- df %>%
         filter(as.numeric(as.character(Year)) >= input$years3[1]) %>%
@@ -315,8 +315,8 @@ server <- function(input, output) {
           filter(Genre == input$genre1)
       }
       best_choice_tableau <- tablo %>% 
-        slice(1:7)
-        #mutate(picture = c(image, image, image)) %>% 
+        slice(1:7) #%>% 
+        #mutate(picture = c(image, image, image))
     }
     
     ###############PAR POPULARITE############
@@ -458,7 +458,11 @@ server <- function(input, output) {
      
      output$image <- renderText({
        if(is.null(input$Tablo_rows_selected) == FALSE){
-       paste0("<img alt=\"007: James Bond - The Stealth Affair DOS Front Cover\" border=\"0\" height=\"150\" src=\"https://www.mobygames.com/images/covers/s/261101-007-james-bond-the-stealth-affair-dos-front-cover.jpg\" width=\"120\"/>")
+         image <- tablo() %>%
+           slice(input$Tablo_rows_selected) %>%
+           pull(image)
+         image <- image %>% str_replace('src=\"/', "src=\"https://www.mobygames.com/")
+         paste0(image)
        }
      })
 }

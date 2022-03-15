@@ -291,3 +291,57 @@ data <- readRDS('data_jeux_image.rds')
 ```
 
 
+```{r}
+df <- read_csv('vgsales2.csv')
+```
+
+```{r}
+data <- readRDS('data_jeux_image.rds')
+```
+
+
+```{r}
+data[1,30] %>% 
+  str_replace('src=\"/', "src=\"https://www.mobygames.com/")
+```
+```{r}
+paste0("<img alt=\"007: James Bond - The Stealth Affair DOS Front Cover\" border=\"0\" height=\"150\" src=\"https://www.mobygames.com/images/covers/s/261101-007-james-bond-the-stealth-affair-dos-front-cover.jpg\" width=\"120\"/>")
+```
+
+
+```{r}
+iscreen <- "<img alt=\"007 Car Chase Commodore 64 Title\" border=\"0\" height=\"112\" src=\"https://www.mobygames.com/images/shots/s/311197-007-car-chase-commodore-64-screenshot-title.jpg\" title=\"Missing cover image (using game screenshot)\" width=\"160\">"
+```
+
+```{r}
+paste0("<img src=\"", src="https://www.mobygames.com/images/covers/s/264995-air-hockey-android-front-cover.jpg", "\" height=\"80\" data-toggle=\"tooltip\" data-placement=\"right\" title=\"", "bijo", "\"></img>")
+```
+
+
+```{r}
+iscreen <- "<img alt=\"007: James Bond - The Stealth Affair DOS Front Cover\" border=\"0\" height=\"150\" src=\"https://www.mobygames.com/images/covers/s/261101-007-james-bond-the-stealth-affair-dos-front-cover.jpg\" width=\"120\"/>"
+```
+
+
+```{r}
+
+
+data %>% 
+  slice(1:3) %>% 
+  mutate(picture = c(iscreen, iscreen, iscreen)) %>% 
+  select(picture, Name) %>% 
+  datatable()
+```
+
+```{r}
+"<img title="Missing cover image (using game screenshot)" alt="007 Car Chase Commodore 64 Title" border="0" src="/images/shots/s/311197-007-car-chase-commodore-64-screenshot-title.jpg" height="112" width="160">"
+```
+
+
+
+```{r}
+data[1,1:3] %>%
+  mutate(image =  paste0("<img src=\"", src="https://www.mobygames.com/images/covers/s/264995-air-hockey-android-front-cover.jpg", "\" height=\"80\" data-toggle=\"tooltip\" data-placement=\"right\" title=\"", "bijo", "\"></img>")) %>% 
+  datatable(escape = F)
+```
+
