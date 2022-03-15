@@ -1,5 +1,6 @@
 library(rjson)
 library(jsonlite)
+library(readr)
 
 ## Import de vgsales.csv manuellement
 
@@ -40,6 +41,12 @@ sum(data$EU_Sales == vgsales$EU_Sales)
 sum(data$JP_Sales == vgsales$JP_Sales)
 sum(data$Other_Sales == vgsales$Other_Sales)
 sum(data$Global_Sales == vgsales$Global_Sales)
+
+data <- data %>% mutate(tableau = tableau %>% 
+                  str_replace_all("src=\"", "src=\"https:") %>% 
+                  str_replace_all("srcset=\"", "srcset=\"https:") %>% 
+                  str_replace_all("href=\"", "href=\"https://en.wikipedia.org") %>% 
+                  str_replace("float: right", "float: left"))
 
 
 write.csv(data,"C:\\Users\\Lucas\\Documents\\M2\\S2\\Big data\\Lucas\\data\\vgsales2.csv", row.names = FALSE)
