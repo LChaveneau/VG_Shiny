@@ -504,7 +504,9 @@ server <- function(input, output) {
              pull(tableau) %>% 
              str_replace("<a class=\"image\"", "<center><a class=\"image\"") %>% 
              str_replace("/></a>", "/></a></center>") %>% 
-             str_replace("style=\"float: left;", "style=\"float: left; background-color: #F9ECDD;")
+             str_replace("style=\"float: left;", "style=\"float: left; background-color: #F9ECDD;") %>% 
+             str_replace("style=\"font-size:125%;font-style:italic;", "style=\"font-size:200%;font-style:italic; text-align: center;
+")
            }
          paste0(code_html)
        }
