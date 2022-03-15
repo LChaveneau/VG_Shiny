@@ -300,8 +300,6 @@ server <- function(input, output) {
     ####### PAR SALES ########
     if(input$type_recommandation == "Vente"){
       
-      image <- paste0("<img alt=\"007 Ice Racer ExEn Game splashscreen\" border=\"0\" height=\"80\" src=\"/images/shots/s/149436-007-ice-racer-exen-screenshot-game-splashscreen.jpg\" title=\"Missing cover image (using game screenshot)\" width=\"104\"/>")
-      
       tablo <- df %>%
         filter(as.numeric(as.character(Year)) >= input$years3[1]) %>%
         filter(as.numeric(as.character(Year)) <= input$years3[2])
@@ -412,7 +410,21 @@ server <- function(input, output) {
     
     if(input$type_recommandation == "Popularite"){
       recommandation <- tablo() %>% 
-        select(Name, Publisher, Annee, platform) %>% 
+        select(image, Name, Publisher, Annee, platform) %>% 
+        ################## Affectation de la bonne taille de l'image###############
+        mutate(valeur_width = image %>%  
+                 str_extract("width=\"\\d+\"") %>% 
+                 str_extract("\\d+") %>% 
+                 as.numeric(),
+               valeur_height = image %>%  
+                 str_extract("height=\"\\d+\"") %>% 
+                 str_extract("\\d+") %>% 
+                 as.numeric()) %>% 
+        mutate(image = image %>% 
+                 str_replace(paste0("width=\"",valeur_width,"\""), paste0("width=\"",valeur_width * 0.5,"\"")) %>% 
+                 str_replace(paste0("height=\"",valeur_height,"\""), paste0("height=\"",valeur_height * 0.5,"\""))) %>% 
+        ############################################################################
+        select(image, Name, Publisher, Annee, platform) %>% 
         datatable(rownames = F,
                   extensions = c('Select'),
                   selection = "single",
@@ -456,11 +468,16 @@ server <- function(input, output) {
        print(input$type_recommandation)
      })
      
-     output$image <- renderText({
+     output$image <- renderText({       
        if(is.null(input$Tablo_rows_selected) == FALSE){
+         if(input$type_recommandation == "Popularite"){
          image <- tablo() %>%
            slice(input$Tablo_rows_selected) %>%
            pull(image)
+       }
+         if(input$type_recommandation == "Vente"){
+           image <- "<table class=\"infobox hproduct\" style=\"float: right; width: 22em;\"><tbody><tr><th class=\"infobox-above fn\" colspan=\"2\" style=\"font-size:125%;font-style:italic;\">Wii Sports</th></tr><tr><td class=\"infobox-image\" colspan=\"2\"><a class=\"image\" href=\"https://en.wikipedia.org/wiki/File:Wii_Sports_Europe.jpg\"><img alt='Artwork of a vertical rectangular box. The top third displays three screen shots from the game: two characters with boxing gloves fighting in a boxing ring, a character holding a bowling ball at a ball pit, and a character holding a golf at the putting green of a golf course The Wii logo is shown at the upper left corner. The center portion reads \"Wii Sports\" over five blue boxes depicting different sports equipment. The lower third displays two more screen shots from the game: a character holding a tennis racket at a Tennis court and a character swinging a baseball bat in a stadium. The PEGI \"7+\" rating is shown on the bottom left corner and the Nintendo logo is on the bottom right corner.' data-file-height=\"365\" data-file-width=\"260\" decoding=\"async\" height=\"309\" src=\"https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/Wii_Sports_Europe.jpg/220px-Wii_Sports_Europe.jpg\" srcset=\"https://upload.wikimedia.org/wikipedia/en/e/e0/Wii_Sports_Europe.jpg 1.5x\" width=\"220\"/></a><div class=\"infobox-caption\">European box art depicting the game avatars, <a href=\"https://en.wikipedia.org/wiki/Mii\" title=\"Mii\">Miis</a>, playing the five sports: (clockwise from top left) <a href=\"https://en.wikipedia.org/wiki/Boxing\" title=\"Boxing\">boxing</a>, <a href=\"https://en.wikipedia.org/wiki/Bowling\" title=\"Bowling\">bowling</a>, <a href=\"https://en.wikipedia.org/wiki/Golf\" title=\"Golf\">golf</a>, <a href=\"https://en.wikipedia.org/wiki/Baseball\" title=\"Baseball\">baseball</a>, and <a href=\"https://en.wikipedia.org/wiki/Tennis\" title=\"Tennis\">tennis</a></div></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a href=\"https://en.wikipedia.org/wiki/Video_game_developer\" title=\"Video game developer\">Developer(s)</a></th><td class=\"infobox-data\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Nintendo_EAD\" title=\"Nintendo EAD\">Nintendo EAD</a></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a href=\"https://en.wikipedia.org/wiki/Video_game_publisher\" title=\"Video game publisher\">Publisher(s)</a></th><td class=\"infobox-data\"><a href=\"https://en.wikipedia.org/wiki/Nintendo\" title=\"Nintendo\">Nintendo</a></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Video_game_creative_director\" title=\"Video game creative director\">Director(s)</a></th><td class=\"infobox-data\"><div class=\"plainlist\"><ul><li>Keizo Ohta</li><li>Takayuki Shimamura</li><li>Yoshikazu Yamashita</li></ul></div></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a href=\"https://en.wikipedia.org/wiki/Video_game_producer\" title=\"Video game producer\">Producer(s)</a></th><td class=\"infobox-data\"><div class=\"plainlist\"><ul><li><a href=\"https://en.wikipedia.org/wiki/Katsuya_Eguchi\" title=\"Katsuya Eguchi\">Katsuya Eguchi</a></li><li>Kiyoshi Mizuki</li></ul></div></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Video_game_designer\" title=\"Video game designer\">Designer(s)</a></th><td class=\"infobox-data\">Junji Morii</td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a href=\"https://en.wikipedia.org/wiki/Video_game_programmer\" title=\"Video game programmer\">Programmer(s)</a></th><td class=\"infobox-data\">Tsutomu Kaneshige</td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Video_game_composer\" title=\"Video game composer\">Composer(s)</a></th><td class=\"infobox-data\"><a href=\"https://en.wikipedia.org/wiki/Kazumi_Totaka\" title=\"Kazumi Totaka\">Kazumi Totaka</a></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\">Series</th><td class=\"infobox-data\"><i><a href=\"https://en.wikipedia.org/wiki/Wii_(video_game_series)\" title=\"Wii (video game series)\">Wii</a></i></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a href=\"https://en.wikipedia.org/wiki/Computing_platform\" title=\"Computing platform\">Platform(s)</a></th><td class=\"infobox-data\"><a href=\"https://en.wikipedia.org/wiki/Wii\" title=\"Wii\">Wii</a></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\">Release</th><td class=\"infobox-data\"><div class=\"plainlist\"><ul><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/North_America\" title=\"North America\">NA</a>:</span> November 19, 2006</li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/Japan\" title=\"Japan\">JP</a>:</span> December 2, 2006</li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/Australasia\" title=\"Australasia\">AU</a>:</span> December 7, 2006</li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/Europe\" title=\"Europe\">EU</a>:</span> December 8, 2006</li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/South_Korea\" title=\"South Korea\">KOR</a>:</span> April 26, 2008</li></ul></div></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a href=\"https://en.wikipedia.org/wiki/Video_game_genre\" title=\"Video game genre\">Genre(s)</a></th><td class=\"infobox-data\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Sports_game\" title=\"Sports game\">Sports</a></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\">Mode(s)</th><td class=\"infobox-data\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Single-player\" title=\"Single-player\">Single-player</a>, <a href=\"https://en.wikipedia.org/wiki/Multiplayer_video_game\" title=\"Multiplayer video game\">multiplayer</a></td></tr></tbody></table>"         
+           }
          paste0(image)
        }
      })
