@@ -54,7 +54,15 @@ df2 <- df2  %>%
 # >>>>>>
 
 # Define UI for application that draws a histogram
-ui <- fluidPage(#theme = 'style.css',
+ui <- fluidPage(theme = bs_theme(
+  bg = "#e5e5e5", fg = "#0d0c0c", primary = "#dd2020",
+  base_font = font_google("Press Start 2P"),
+  code_font = font_google("Press Start 2P"),
+  "font-size-base" = "0.75rem", "enable-rounded" = FALSE
+) %>%
+  bs_add_rules(
+    '@import "https://unpkg.com/nes.css@latest/css/nes.min.css"'
+  ),
   #includeCSS("www/TableStyle.css"),
 
     # Application title
@@ -200,7 +208,6 @@ ui <- fluidPage(#theme = 'style.css',
                               )
                )
       ),
-    theme =  bs_theme(version = version_default(), bootswatch = "united")
     #theme = includeCSS("bootstrap.min.css")
     )
     # Sidebar with a slider input for number of bins 
