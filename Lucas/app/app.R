@@ -8,6 +8,15 @@
 #
 
 boxStyle ='color:black; background-color:#DE4F53; border-radius: .1em; color:white; align:right; text-align:left; display: table-cell;'
+my_theme <- bs_theme(
+  bg = "#e5e5e5", fg = "#0d0c0c", primary = "#dd2020",
+  base_font = font_google("Press Start 2P"),
+  code_font = font_google("Press Start 2P"),
+  "font-size-base" = "0.55rem", "enable-rounded" = FALSE #"0.75rem"
+) %>%
+  bs_add_rules(
+    '@import "https://unpkg.com/nes.css@latest/css/nes.min.css"'
+  )
 
 library(shiny)
 library(tidyverse)
@@ -54,15 +63,7 @@ df2 <- df2  %>%
 # >>>>>>
 
 # Define UI for application that draws a histogram
-ui <- fluidPage(theme = bs_theme(
-  bg = "#e5e5e5", fg = "#0d0c0c", primary = "#dd2020",
-  base_font = font_google("Press Start 2P"),
-  code_font = font_google("Press Start 2P"),
-  "font-size-base" = "0.75rem", "enable-rounded" = FALSE
-) %>%
-  bs_add_rules(
-    '@import "https://unpkg.com/nes.css@latest/css/nes.min.css"'
-  ),
+ui <- fluidPage(theme = my_theme,
   #includeCSS("www/TableStyle.css"),
 
     # Application title
@@ -414,6 +415,7 @@ server <- function(input, output) {
       recommandation <- tablo() %>% 
         select("Name":"Publisher") %>% 
         datatable(rownames = F,
+                  style = "bootstrap",
                   extensions = c('Select'),
                   selection = "single",
                   options = list(
@@ -443,6 +445,7 @@ server <- function(input, output) {
         ############################################################################
         select(image, Name, Publisher, Annee, platform) %>% 
         datatable(rownames = F,
+                  style = "bootstrap",
                   extensions = c('Select'),
                   selection = "single",
                   options = list(
