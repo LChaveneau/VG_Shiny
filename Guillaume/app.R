@@ -17,8 +17,13 @@ library(leaflet)
 library(shinythemes)
 library(questionr)
 
-df <- read_csv('vgsales.csv')
+df <- read_csv('vgsales2.csv')
+df_bis<-read_csv("vgsales.csv")
 df2 <- readRDS('data_jeux.rds')
+df_image<-readRDS("data_jeux_image.rds")
+
+df_image$image<-str_replace(df_image$image, 'src="/images', 'src="https://www.mobygames.com/images')
+
 
 df <- df  %>% 
   mutate(Platform = as.factor(Platform)) %>% 
@@ -33,15 +38,15 @@ df2 <- df2  %>%
   mutate(Year = as.factor(Annee)) %>%
   mutate(Publisher = as.factor(Publisher))
 
-data_NA = df[,c(1:6, 7, 10:11)]
+data_NA = df_bis[,c(1:6, 7, 10:11)]
 data_NA <- rename.variable(data_NA, "NA_Sales", "Sales")
 data_NA$country = "Canada"
 
-data_EU = df[,c(1:6, 8, 10:11)]
+data_EU = df_bis[,c(1:6, 8, 10:11)]
 data_EU <- rename.variable(data_EU, "EU_Sales", "Sales")
 data_EU$country = "Austria"
 
-data_jpn = df[,c(1:6, 9:11)]
+data_jpn = df_bis[,c(1:6, 9:11)]
 data_jpn <- rename.variable(data_jpn, "JP_Sales", "Sales")
 data_jpn$country = "Japan"
 
@@ -86,6 +91,7 @@ navbarPage("Page",
                                                max = 2022,
                                                value = 2021)
                                    ,
+                                   checkboxInput("Licence", "Jeux sous licence (Oui si coché)", value=FALSE),
                                    radioButtons("var", 
                                                 label = "Choix de la variable:",
                                                 choices = list("Concepteur" = "Publisher", "Console" = "platform"), 
@@ -109,36 +115,36 @@ navbarPage("Page",
                                  )
                                )
                       ),
-                      tabPanel("Par ventes", 
-                               sidebarLayout(
-                                 sidebarPanel(
+                      tabPanel("Par ventes",
+                                 fluidRow(column(width=6,
                                    sliderInput("years2",
-                                               "Annee :",
+                                               label= h3("Choix de l'année:"),
                                                min = 1980,
                                                max = 2017,
-                                               value = 2016)
-                                   ,
+                                               value = 2016)),
+                                   column(width=6,
                                    radioButtons("var2", 
                                                 label = h3("Choix de la variable:"),
                                                 choices = list(
-                                                  "Publisher" = "Publisher", 
+                                                  "Concepteur" = "Publisher", 
                                                   "Genre" = "Genre", 
                                                   "Video Games" = "Name", 
-                                                  "Platform" = "Platform"
+                                                  "Plateforme" = "Platform"
                                                 ), 
                                                 selected = "Name")
-                                 ),
-                                 
+                                 )),
+                                 h3("Representation graphique"),
                                  # Show a plot of the generated distribution
-                                 mainPanel(
-                                   plotOutput("SalesHist")
-                                 )
-                               )),
+                                 fluidRow(column(width=5,
+                                   plotlyOutput("SalesHist", width = "500px", height = "300px")),
+                                   column(width=4,
+                                   plotlyOutput("SalesHist2", width= "500px", height= "300px"))),
+                      ),
                       tabPanel("Cartographie de ventes",
-                               selectInput("Nom", "Choix du jeu", multiple = FALSE, choices = character(0)),
+                               selectInput("Nom", label=h4("Choix du jeu"), multiple = FALSE, choices = character(0)),
                                selectInput("plateform2", label = h4("Choix de la plateform"), 
                                            
-                                           choices = c("--", as.list(levels(df$Platform))),
+                                           choices = c("--", as.list(levels(df_bis$Platform))),
                                            selected = "NES"),
                                DTOutput("Table"),
                                leafletOutput("map_vente"))
@@ -182,8 +188,7 @@ navbarPage("Page",
                                          "Sports",
                                          "Strategie",
                                          "Role_play",
-                                         "Edition_special",
-                                         "DLC"),
+                                         "Edition_special"),
                                        multiple = TRUE,
                                        options = list(dropdownParent = 'body', 
                                                       maxitems = 'null', 
@@ -194,15 +199,18 @@ navbarPage("Page",
                       ),
                       mainPanel(
                         DTOutput("Tablo"),
+                        htmlOutput("image"),
+                        htmlOutput('desc'),
+                        uiOutput("lienyt"),
                       )
                     ),
                     fluidRow(
                       column(4, 
-                             htmlOutput("image")
+                             # htmlOutput("image")
                       ),
                       column(8,
-                             htmlOutput('desc'),
-                             verbatimTextOutput('desc2')
+                             #htmlOutput('desc'),
+                             #verbatimTextOutput('desc2')
                       )
                     )
            ),
@@ -213,13 +221,13 @@ navbarPage("Page",
                     uiOutput("tab")
            )
 ),
-theme = shinythemes::shinytheme('united')
+theme = bslib::bs_theme(bootswatch = "united"),
 )
 # Sidebar with a slider input for number of bins 
 
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
-  
+  thematic::thematic_shiny()
   ############################## Page recommendation ####################"
   
   observe({
@@ -301,7 +309,8 @@ server <- function(input, output, session) {
                              "Sports" = "Sports",
                              "Strategie" = "Strategie",
                              "Role play" = "Role_play",
-                             "Edition special" = "Edition_special"))
+                             "Edition special" = "Edition_special",
+                             "DLC" = "DLC"))
     }
   })
   
@@ -329,7 +338,7 @@ server <- function(input, output, session) {
           filter(Genre == input$genre1)
       }
       best_choice_tableau <- tablo %>% 
-        slice(1:3)
+        slice(1:7)
       #mutate(picture = c(image, image, image)) %>% 
     }
     
@@ -352,12 +361,11 @@ server <- function(input, output, session) {
       
       best_choice_tableau <- tablo %>% 
         arrange(reviews) %>% 
-        slice(1:3)
+        slice(1:7)
     }
     best_choice_tableau
     
   })
-  
   ################### Page Nombre #######################################
   
   variable <- reactive({switch(input$var,
@@ -367,82 +375,73 @@ server <- function(input, output, session) {
   })
   
   variable2 <- reactive({switch(input$var2,
-                                "Concepteur" = df$Publisher, 
+                                "Publisher" = df$Publisher, 
                                 "Genre" = df$Genre,
                                 "Platform" = df$Platform,
                                 "Name" = df$Name)
   })
   
+  
   output$Hist <- renderPlotly({
-    fct_count(variable()[df2$Year == input$years], sort = T) %>%
-      slice(1:10)  %>%
-      plot_ly(
-        source = "myClickSource",
-        x =  ~ n,
-        y =  ~ fct_reorder(f, n),
-        type = "bar",
-        orientation = "h") %>% layout(title=paste("Nombre de jeu par", input$var),
-                                      xaxis= list(title="Nombre de jeux"),
-                                      yaxis = list(title=input$var)) %>%
-      config(displayModeBar=FALSE)
-    
+    if(input$Licence==FALSE){
+      hist<-fct_count(variable()[df2$Year == input$years], sort = T) %>%
+        slice(1:10)  %>%
+        plot_ly(
+          source = "myClickSource",
+          x =  ~ n,
+          y =  ~ fct_reorder(f, n),
+          type = "bar",
+          orientation = "h") %>% layout(title=paste("Nombre de jeu par", input$var),
+                                        xaxis= list(title="Nombre de jeux"),
+                                        yaxis = list(title=input$var)) %>%
+        config(displayModeBar=FALSE)
+    }
+    if(input$Licence==TRUE){
+      hist<-fct_count(variable()[df2$Year == input$years & df2$Licence==1], sort = T) %>%
+        slice(1:10)  %>%
+        plot_ly(
+          source = "myClickSource",
+          x =  ~ n,
+          y =  ~ fct_reorder(f, n),
+          type = "bar",
+          orientation = "h") %>% layout(title=paste("Nombre de jeu par", input$var),
+                                        xaxis= list(title="Nombre de jeux"),
+                                        yaxis = list(title=input$var)) %>%
+        config(displayModeBar=FALSE)
+    }
+    hist
   })
   
   SelectedBar <- reactiveVal(NULL)
   
   observe({
-    myClicks <- event_data("plotly_click", source = "myClickSource")
-    req(myClicks)
-    print(myClicks)
-    SelectedBar(myClicks$y)
-    print(SelectedBar)
-    updateTextInput(session, "choixui", value = SelectedBar())
-  })
-  
-  
-  output$myTable <- renderDT({
-    
-    nom<-c("Action", "Aventure", "Puzzle", "Simulation", "Racing",
-           "Educational", "Compilation","Sports", "Strategie", "Role_play")
-    
-    if (input$var=="Publisher"){
-      vect<-c(sum(df2$Action[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Aventure[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Puzzle[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Simulation[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Racing[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Educational[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Compilation[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Sports[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Strategie[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Role_play[df2$Publisher==SelectedBar() & df2$Year==input$years]==1))
-      
+    if(input$Licence==FALSE){
+      myClicks <- event_data("plotly_click", source = "myClickSource")
+      req(myClicks)
+      #print(myClicks)
+      SelectedBar(myClicks$y)
+      #print(SelectedBar)
+      updateTextInput(session, "choixui", value = SelectedBar())
       updateTextInput(session,
                       "choixui2",
-                      value = paste(round(mean(df2$reviews[!is.na(df2$reviews) & df2$Publisher==SelectedBar() & df2$Year==input$years]),3), "/100")
+                      value = paste(round(mean(df2$reviews[!is.na(df2$reviews) & variable()==SelectedBar() & df2$Year==input$years]),3), "/100")
       )
-      
     }
-    if (input$var=="platform"){
-      vect<-c(sum(df2$Action[df2$platform==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Aventure[df2$platform==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Puzzle[df2$platform==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Simulation[df2$platform==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Racing[df2$platform==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Educational[df2$platform==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Compilation[df2$platform==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Sports[df2$platform==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Strategie[df2$platform==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Role_play[df2$platform==SelectedBar() & df2$Year==input$years]==1))
-      
+    if(input$Licence==TRUE){
+      myClicks <- event_data("plotly_click", source = "myClickSource")
+      req(myClicks)
+      #print(myClicks)
+      SelectedBar(myClicks$y)
+      #print(SelectedBar)
+      updateTextInput(session, "choixui", value = SelectedBar())
       updateTextInput(session,
                       "choixui2",
-                      value = paste(round(mean(df2$reviews[!is.na(df2$reviews) & df2$platform==SelectedBar() & df2$Year==input$years]),3), "/100")
-      ) 
+                      value = paste(round(mean(df2$reviews[!is.na(df2$reviews) & variable()==SelectedBar() & df2$Year==input$years & df2$Licence==1]),3), "/100")
+      )
     }
-    
   })
   
+
   
   output$Radar <- renderPlotly({
     
@@ -450,47 +449,57 @@ server <- function(input, output, session) {
            "Educational", "Compilation","Sports", "Strategie", "Role_play")
     
     if (input$var=="Publisher"){
-      vect<-c(sum(df2$Puzzle[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Aventure[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Action[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Simulation[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Racing[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Educational[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Compilation[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Sports[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Strategie[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Role_play[df2$Publisher==SelectedBar() & df2$Year==input$years]==1))
-      
-      updateTextInput(session,
-                      "choixui2",
-                      value = paste(round(mean(df2$reviews[!is.na(df2$reviews) & df2$Publisher==SelectedBar() & df2$Year==input$years]),3), "/100")
-      )
-      
-    }
+      if(input$Licence==FALSE){
+        vect<-c(sum(df2$Puzzle[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
+                sum(df2$Aventure[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
+                sum(df2$Action[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
+                sum(df2$Simulation[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
+                sum(df2$Racing[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
+                sum(df2$Educational[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
+                sum(df2$Compilation[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
+                sum(df2$Sports[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
+                sum(df2$Strategie[df2$Publisher==SelectedBar() & df2$Year==input$years]==1),
+                sum(df2$Role_play[df2$Publisher==SelectedBar() & df2$Year==input$years]==1))
+      }
+      if(input$Licence==TRUE){
+        vect<-c(sum(df2$Puzzle[df2$Publisher==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1),
+                sum(df2$Aventure[df2$Publisher==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1),
+                sum(df2$Action[df2$Publisher==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1),
+                sum(df2$Simulation[df2$Publisher==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1),
+                sum(df2$Racing[df2$Publisher==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1),
+                sum(df2$Educational[df2$Publisher==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1),
+                sum(df2$Compilation[df2$Publisher==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1),
+                sum(df2$Sports[df2$Publisher==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1),
+                sum(df2$Strategie[df2$Publisher==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1),
+                sum(df2$Role_play[df2$Publisher==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1))
+      }
+    }  
     if (input$var=="platform"){
-      vect<-c(sum(df2$Puzzle[df2$platform==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Aventure[df2$platform==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Action[df2$platform==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Simulation[df2$platform==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Racing[df2$platform==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Educational[df2$platform==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Compilation[df2$platform==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Sports[df2$platform==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Strategie[df2$platform==SelectedBar() & df2$Year==input$years]==1),
-              sum(df2$Role_play[df2$platform==SelectedBar() & df2$Year==input$years]==1))
-      
-      updateTextInput(session,
-                      "choixui2",
-                      value = paste(round(mean(df2$reviews[!is.na(df2$reviews) & df2$platform==SelectedBar() & df2$Year==input$years]),3), "/100")
-      ) 
+      if(input$Licence==FALSE){
+        vect<-c(sum(df2$Puzzle[df2$platform==SelectedBar() & df2$Year==input$years]==1),
+                sum(df2$Aventure[df2$platform==SelectedBar() & df2$Year==input$years]==1),
+                sum(df2$Action[df2$platform==SelectedBar() & df2$Year==input$years]==1),
+                sum(df2$Simulation[df2$platform==SelectedBar() & df2$Year==input$years]==1),
+                sum(df2$Racing[df2$platform==SelectedBar() & df2$Year==input$years]==1),
+                sum(df2$Educational[df2$platform==SelectedBar() & df2$Year==input$years]==1),
+                sum(df2$Compilation[df2$platform==SelectedBar() & df2$Year==input$years]==1),
+                sum(df2$Sports[df2$platform==SelectedBar() & df2$Year==input$years]==1),
+                sum(df2$Strategie[df2$platform==SelectedBar() & df2$Year==input$years]==1),
+                sum(df2$Role_play[df2$platform==SelectedBar() & df2$Year==input$years]==1))
+      } 
+      if(input$Licence==TRUE){
+        vect<-c(sum(df2$Puzzle[df2$platform==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1),
+                sum(df2$Aventure[df2$platform==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1),
+                sum(df2$Action[df2$platform==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1),
+                sum(df2$Simulation[df2$platform==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1),
+                sum(df2$Racing[df2$platform==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1),
+                sum(df2$Educational[df2$platform==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1),
+                sum(df2$Compilation[df2$platform==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1),
+                sum(df2$Sports[df2$platform==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1),
+                sum(df2$Strategie[df2$platform==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1),
+                sum(df2$Role_play[df2$platform==SelectedBar() & df2$Year==input$years & df2$Licence==1]==1))
+      }
     }
-    
-    #vect<-as.matrix(vect)
-    #rownames(vect)<-nom
-    #vect<-t(vect)
-    #rownames(vect)<-"Valeur"
-    
-    #vect<-as.data.frame(vect)
     
     plot_ly(
       type="scatterpolar",
@@ -505,7 +514,7 @@ server <- function(input, output, session) {
   
   ############################ Page Ventes #################################"
   
-  output$SalesHist <- renderPlot({
+  output$SalesHist <- renderPlotly({
     df %>% 
       filter(Year == input$years2) %>% 
       select(everything()) %>% 
@@ -513,21 +522,126 @@ server <- function(input, output, session) {
       summarize(Total_sales = sum(Global_Sales)) %>%
       arrange(desc(Total_sales)) %>%
       slice(1:10) %>% 
-      setNames(c("Truc", "Total_sales")) %>% 
-      ggplot() + 
-      aes(x=fct_reorder(Truc, Total_sales), y = Total_sales) + 
-      geom_col()+ 
-      xlab(label=input$var2)+
-      ylab(label="Ventes totales")+
-      theme_minimal()+
-      ggtitle(paste("Ventes totales par", input$var2))+
-      coord_flip()
+      setNames(c("Truc", "Total_sales"))  %>%
+      plot_ly(
+        source = "myClickSource",
+        x =  ~ Total_sales,
+        y =  ~ fct_reorder(Truc, Total_sales),
+        type = "bar",
+        orientation = "h") %>% layout(title=paste("Nombre de ventes par", input$var2),
+                                      xaxis= list(title="Ventes (Millions)"),
+                                      yaxis= list(title="")) %>%
+      config(displayModeBar=FALSE)
+    
   })
+  
+  SelectedBar2 <- reactiveVal(NULL)
+  
+  observe({
+    myClicks2 <- event_data("plotly_click", source = "myClickSource")
+    req(myClicks2)
+    SelectedBar2(myClicks2$y)
+    print(SelectedBar2())
+    
+    
+    output$SalesHist2 <- renderPlotly({
+      if(input$var2 == "Publisher"){
+        new_df<-df %>% 
+          filter(Year == input$years2 & Publisher== SelectedBar2()) %>% 
+          select(everything()) 
+        
+        hist2<-new_df %>% 
+          filter(Year == input$years2) %>% 
+          select(everything())%>%
+          group_by(new_df$Genre[new_df$Year==input$years2])%>%
+          summarize(Total_sales = sum(Global_Sales)) %>%
+          arrange(desc(Total_sales)) %>%
+          slice(1:10) %>% 
+          setNames(c("Truc", "Total_sales"))  %>%
+          plot_ly(
+            y =  ~ Total_sales,
+            x =  ~ fct_reorder(Truc, Total_sales),
+            type = "bar") %>% layout(title=paste("Ventes par genre pour le concepteur:", SelectedBar2()),
+                                     xaxis= list(title="Ventes (Millions)"),
+                                     yaxis= list(title="")) %>%
+          config(displayModeBar=FALSE)
+        #hist2
+      }
+      if(input$var2 == "Platform"){
+        new_df<-df %>% 
+          filter(Year == input$years2 & Platform== SelectedBar2()) %>% 
+          select(everything()) 
+        
+        hist2<-new_df %>% 
+          filter(Year == input$years2) %>% 
+          select(everything())%>%
+          group_by(new_df$Genre[new_df$Year==input$years2])%>%
+          summarize(Total_sales = sum(Global_Sales)) %>%
+          arrange(desc(Total_sales)) %>%
+          slice(1:10) %>% 
+          setNames(c("Truc", "Total_sales"))  %>%
+          plot_ly(
+            y =  ~ Total_sales,
+            x =  ~ fct_reorder(Truc, Total_sales),
+            type = "bar") %>% layout(title=paste("Ventes par genre pour la platforme:", SelectedBar2()),
+                                     xaxis= list(title="Ventes (Millions)"),
+                                     yaxis= list(title="")) %>%
+          config(displayModeBar=FALSE)
+        #hist2
+      }
+      if(input$var2 == "Genre"){
+        new_df<-df %>% 
+          filter(Year == input$years2 & Genre== SelectedBar2()) %>% 
+          select(everything()) 
+        
+        hist2<-new_df %>% 
+          filter(Year == input$years2) %>% 
+          select(everything())%>%
+          group_by(new_df$Name[new_df$Year==input$years2])%>%
+          summarize(Total_sales = sum(Global_Sales)) %>%
+          arrange(desc(Total_sales)) %>%
+          slice(1:10) %>% 
+          setNames(c("Truc", "Total_sales"))  %>%
+          plot_ly(
+            x =  ~ Total_sales,
+            y =  ~ fct_reorder(Truc, Total_sales),
+            type = "bar") %>% layout(title=paste("Ventes par jeu pour le genre:", SelectedBar2()),
+                                     xaxis= list(title="Ventes (Millions)"),
+                                     yaxis= list(title="")) %>%
+          config(displayModeBar=FALSE)
+        #hist2
+      }
+      if(input$var2 == "Name"){
+        new_df<-df %>% 
+          filter(Year == input$years2 & Name== SelectedBar2()) %>% 
+          select(everything()) 
+        
+        hist2<-new_df %>% 
+          filter(Year == input$years2) %>% 
+          select(everything())%>%
+          group_by(new_df$Platform[new_df$Year==input$years2])%>%
+          summarize(Total_sales = sum(Global_Sales)) %>%
+          arrange(desc(Total_sales)) %>%
+          slice(1:10) %>% 
+          setNames(c("Truc", "Total_sales"))  %>%
+          plot_ly(
+            y =  ~ Total_sales,
+            x =  ~ fct_reorder(Truc, Total_sales),
+            type = "bar") %>% layout(title=paste("Ventes par platforme pour le jeu:", SelectedBar2()),
+                                     xaxis= list(title="Ventes (Millions)"),
+                                     yaxis= list(title="")) %>%
+          config(displayModeBar=FALSE)
+        #hist2
+      }
+      hist2
+    })
+  })
+  
   
   ################# Page Carte ##############################################
   
   updateSelectizeInput(session, "Nom",
-                       choices = c("Remplace et choisit un jeu"= "",df$Name),
+                       choices = c("Remplace et choisit un jeu"= "",df_bis$Name),
                        server = TRUE)
   
   observe({
@@ -581,30 +695,35 @@ server <- function(input, output, session) {
   
   output$Tablo <- renderDT({
     if(input$type_recommandation == "Vente"){
-      tablo() %>% 
+      recommandation <- tablo() %>% 
         select("Name":"Publisher") %>% 
         datatable(rownames = F,
                   extensions = c('Select'),
-                  selection = "none",
+                  selection = "single",
                   options = list(
                     select = list(style = 'os', items = 'row'), 
-                    dom = 't',
-                    ordering = F),
+                    dom = 'lt',
+                    ordering = F, 
+                    pageLength = 3, 
+                    lengthMenu = c(3, 5, 7)),
                   escape = F)
     }
     
     if(input$type_recommandation == "Popularite"){
-      tablo() %>% 
+      recommandation <- tablo() %>% 
         select(Name, Publisher, Annee, platform) %>% 
         datatable(rownames = F,
                   extensions = c('Select'),
-                  selection = "none",
+                  selection = "single",
                   options = list(
                     select = list(style = 'os', items = 'row'), 
-                    dom = 't',
-                    ordering = F),
+                    dom = 'lt',
+                    ordering = F, 
+                    pageLength = 3, 
+                    lengthMenu = c(3, 5, 7)),
                   escape = F)
     }
+    recommandation
   })
   
   output$desc <- renderText(expr = {
@@ -612,11 +731,19 @@ server <- function(input, output, session) {
     # cat(paste(input$type_recommandation))
     
     if(is.null(input$Tablo_rows_selected) == FALSE){
-      desc <- tablo() %>% 
-        slice(input$Tablo_rows_selected) %>% 
-        pull(Description)
-      
-      paste("<h1>Description</h1>",
+      if(input$type_recommandation == "Popularite"){
+        desc <- tablo() %>% 
+          slice(input$Tablo_rows_selected) %>% 
+          pull(Description)
+        
+      }
+      if(input$type_recommandation=="Vente"){
+        desc <- tablo() %>% 
+          slice(input$Tablo_rows_selected) %>% 
+          pull(Description)
+        
+      }
+      paste("<h1>Description de votre jeu choisi:</h1>",
             "<p>", 
             desc %>% 
               str_remove("\\[edit description\\]") %>% 
@@ -629,13 +756,63 @@ server <- function(input, output, session) {
   })
   output$desc2 <- renderPrint({
     print(input$Tablo_rows_selected)
+    print(input$type_recommandation)
   })
- 
+  
   
   output$image <- renderText({
     if(is.null(input$Tablo_rows_selected) == FALSE){
-      paste0("<img alt=\"007: James Bond - The Stealth Affair DOS Front Cover\" border=\"0\" height=\"150\" src=\"/images/covers/s/261101-007-james-bond-the-stealth-affair-dos-front-cover.jpg\" width=\"120\"/>")
+      if(input$type_recommandation == "Popularite"){
+        nom_select<-tablo()[1][1] %>% slice(input$Tablo_rows_selected) %>%
+          pull(Name)
+        
+        img<-df_image%>% filter(Name==nom_select)
+        img<-as.vector(img)
+        img<-img[2]
+        test_img<-paste0(img)
+        #paste0(test_img)
+      }
+      if(input$type_recommandation == "Vente"){
+        nom_select<-tablo()[2][1] %>% slice(input$Tablo_rows_selected) %>%
+          pull(Name)
+        
+        img<-df_image%>% filter(Name==nom_select)
+        img<-as.vector(img)
+        img<-img[2]
+        test_img<-paste0(img)
+      }
+      paste0(test_img)
     }
+  })
+  
+  
+  
+  output$lienyt <- renderUI({
+    if(is.null(input$Tablo_rows_selected) == FALSE){
+      if(input$type_recommandation == "Popularite"){
+        
+        valeur<-tablo()[1][1] %>% slice(input$Tablo_rows_selected) %>%
+          pull(Name)
+        valeur<-gsub(" ", "", valeur)
+        
+        url_1 <- paste0("https://www.youtube.com/results?search_query=gameplay+",valeur)
+        url_2 <- a(valeur, href= url_1)
+        
+        #tagList(img(src = "logo_yt.png", height = 80, width = 100), url_2)
+      }
+      if(input$type_recommandation == "Vente"){
+        
+        valeur<-tablo()[2][1] %>% slice(input$Tablo_rows_selected) %>%
+          pull(Name)
+        valeur<-gsub(" ", "", valeur)
+        
+        url_1 <- paste0("https://www.youtube.com/results?search_query=gameplay+",valeur)
+        url_2 <- a(valeur, href= url_1)
+        
+        #tagList(img(src = "logo_yt.png", height = 80, width = 100), url_2)
+      }
+      tagList(img(src = "logo_yt.png", height = 80, width = 100), url_2)
+    } 
   })
   
   ######################### Page Recherche ###################################################
@@ -645,14 +822,14 @@ server <- function(input, output, session) {
   
   observe({
     
-    valeur<-input$Nom2
-    valeur<-gsub(" ", "", valeur)
+    valeur_2<-input$Nom2
+    valeur_2<-gsub(" ", "", valeur_2)
     
-    url <- paste0("https://www.youtube.com/results?search_query=gameplay+",valeur)
-    url_2 <- a(input$Nom2, href= url)
+    url_3 <- paste0("https://www.youtube.com/results?search_query=gameplay+",valeur_2)
+    url_4 <- a(input$Nom2, href= url_3)
     
     output$tab <- renderUI({
-      tagList("Page Youtube pour un gameplay du Jeu:", url_2)
+      tagList("Page Youtube pour un gameplay du Jeu:", url_4)
     })
     
   })
@@ -663,17 +840,4 @@ server <- function(input, output, session) {
 # Run the application 
 shinyApp(ui = ui, server = server)
 
-# output$SalesHist <- renderPlot({
-#   tablo <- df %>% 
-#     filter(Year == input$years2) %>% 
-#     select(everything()) %>% 
-#     group_by(variable2()[df$Year == input$years2]) %>%
-#     summarize(Total_sales = sum(Global_Sales))%>%
-#     arrange(desc(Total_sales)) %>%
-#     slice(1:10)
-#   colnames(tablo) <- c("Truc", "Total_sales")
-#   ggplot(tablo) + 
-#     aes(x=fct_reorder(Truc, Total_sales), y = Total_sales) + 
-#     geom_col() + 
-#     coord_flip()
-# })
+
