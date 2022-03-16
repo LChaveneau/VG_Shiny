@@ -7,10 +7,14 @@
 #    http://shiny.rstudio.com/
 #
 
+boxStyle ='color:black; background-color:#DE4F53; border-radius: .1em; color:white; align:right; text-align:left; display: table-cell;'
+
 library(shiny)
 library(tidyverse)
 library(tidyr)
 library(DT)
+library(fresh)
+library(bslib)
 
 df <- read_csv('vgsales2.csv')
 df2 <- readRDS('data_jeux_image.rds')
@@ -29,6 +33,8 @@ df2 <- df2  %>%
 
 
 
+
+
 # ## NOT RUN and TO DELETE AT THE END ->>>>>
 # switch_vector <- function(x){switch(
 #   x,
@@ -40,7 +46,7 @@ df2 <- df2  %>%
 #   "Compilation" = df2$Compilation,
 #   "Simulation" = df2$Simulation,
 #   "Sports" = df2$Sports,
-#   "Strategie" = df2$Strategie,
+#   "Strategie" = df2$Strategie,bslib
 #   "Role_play" = df2$Role_play,
 #   "Edition_special" = df2$Edition_special,
 #   "DLC" = df2$DLC)
@@ -48,7 +54,8 @@ df2 <- df2  %>%
 # >>>>>>
 
 # Define UI for application that draws a histogram
-ui <- fluidPage(  
+ui <- fluidPage(#theme = 'style.css',
+  #includeCSS("www/TableStyle.css"),
 
     # Application title
     titlePanel("Video Games"),
@@ -158,11 +165,13 @@ ui <- fluidPage(
                 ),
               fluidRow(
                 column(4, 
-                      htmlOutput("image")
+                      htmlOutput("image"),
+                      style = "background-color: #EAE7E6"
                        ),
                 column(8,
                        htmlOutput('desc'),
-                       htmlOutput('desc2')
+                       htmlOutput('desc2'),
+                       style = boxStyle
               )
               )
               ),
@@ -191,7 +200,8 @@ ui <- fluidPage(
                               )
                )
       ),
-    theme = shinythemes::shinytheme('united')
+    theme =  bs_theme(version = version_default(), bootswatch = "united")
+    #theme = includeCSS("bootstrap.min.css")
     )
     # Sidebar with a slider input for number of bins 
 
@@ -501,10 +511,12 @@ server <- function(input, output) {
          if(input$type_recommandation == "Vente"){
            code_html <- tablo() %>%
              slice(input$Tablo_rows_selected) %>%
-             pull(tableau) %>% 
+             pull(tableau) %>%
+             str_replace("<table", "<center><table") %>% 
+             str_replace("</table>", "</table></center>") %>% 
              str_replace("<a class=\"image\"", "<center><a class=\"image\"") %>% 
              str_replace("/></a>", "/></a></center>") %>% 
-             str_replace("style=\"float: left;", "style=\"float: left; background-color: #F9ECDD;") %>% 
+             str_replace("style=\"float: left;", "style=\"float: center; background-color: #DE4F53;") %>% 
              str_replace("style=\"font-size:125%;font-style:italic;", "style=\"font-size:200%;font-style:italic; text-align: center;
 ")
            }
