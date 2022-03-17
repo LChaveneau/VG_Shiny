@@ -717,3 +717,212 @@ valeur = paste(valeur,"</div></div></td></tr></tbody></table>  ")
 ```
 
 
+```{r}
+df <- read_csv('vgsales2.csv')
+```
+
+
+
+```{r}
+paste0(data2[2,13])
+```
+
+```{r}
+"<table class=\"infobox hproduct\" style=\"float: left; width: 22em;\">
+  <tbody>
+    <tr valign=\"top\">
+      <td width=\"1%\"><div id=\"coreGameCover\">
+        <tr>
+          <th class=\"infobox-above fn\" colspan=\"2\" style=\"font-size:125%;font-style:italic;\">
+            Wii Sports
+          </th>
+        </tr>
+        <tr>
+          <td class=\"infobox-image\" colspan=\"2\">
+            <a class=\"image\" href=\"https://en.wikipedia.org/wiki/File:Wii_Sports_Europe.jpg\">
+              <img alt='Artwork of a vertical rectangular box. The top third displays three screen shots from the game: two characters with boxing gloves fighting in a boxing ring, a character holding a bowling ball at a ball pit, and a character holding a golf at the putting green of a golf course The Wii logo is shown at the upper left corner. The center portion reads \"Wii Sports\" over five blue boxes depicting different sports equipment. The lower third displays two more screen shots from the game: a character holding a tennis racket at a Tennis court and a character swinging a baseball bat in a stadium. The PEGI \"7+\" rating is shown on the bottom left corner and the Nintendo logo is on the bottom right corner.' data-file-height=\"365\" data-file-width=\"260\" decoding=\"async\" height=\"309\" src=\"https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/Wii_Sports_Europe.jpg/220px-Wii_Sports_Europe.jpg\" srcset=\"https://upload.wikimedia.org/wikipedia/en/e/e0/Wii_Sports_Europe.jpg 1.5x\" width=\"220\"/>
+            </a>
+          </td>
+        </tr>
+        </td>
+      <td width=\"40%\"><div id=\"left\">
+        <tr>
+          <th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\">
+            <a href=\"https://en.wikipedia.org/wiki/Video_game_developer\" title=\"Video game developer\">Developer(s)
+            </a>
+          </th>
+          <td class=\"infobox-data\">
+      <a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Nintendo_EAD\" title=\"Nintendo EAD\">
+        Nintendo EAD
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\">
+      <a href=\"https://en.wikipedia.org/wiki/Video_game_publisher\" title=\"Video game publisher\">Publisher(s)
+      </a>
+    </th>
+    <td class=\"infobox-data\"><a href=\"https://en.wikipedia.org/wiki/Nintendo\" title=\"Nintendo\">Nintendo</a></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Video_game_creative_director\" title=\"Video game creative director\">Director(s)</a></th><td class=\"infobox-data\"><div class=\"plainlist\"><ul><li>Keizo Ohta</li><li>Takayuki Shimamura</li><li>Yoshikazu Yamashita</li></ul></div></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a href=\"https://en.wikipedia.org/wiki/Video_game_producer\" title=\"Video game producer\">Producer(s)</a></th><td class=\"infobox-data\"><div class=\"plainlist\"><ul><li><a href=\"https://en.wikipedia.org/wiki/Katsuya_Eguchi\" title=\"Katsuya Eguchi\">Katsuya Eguchi</a></li><li>Kiyoshi Mizuki</li></ul></div></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Video_game_designer\" title=\"Video game designer\">Designer(s)</a></th><td class=\"infobox-data\">Junji Morii</td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a href=\"https://en.wikipedia.org/wiki/Video_game_programmer\" title=\"Video game programmer\">Programmer(s)</a></th><td class=\"infobox-data\">Tsutomu Kaneshige</td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Video_game_composer\" title=\"Video game composer\">Composer(s)</a></th><td class=\"infobox-data\"><a href=\"https://en.wikipedia.org/wiki/Kazumi_Totaka\" title=\"Kazumi Totaka\">Kazumi Totaka</a></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\">Series</th><td class=\"infobox-data\"><i><a href=\"https://en.wikipedia.org/wiki/Wii_(video_game_series)\" title=\"Wii (video game series)\">Wii</a></i></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a href=\"https://en.wikipedia.org/wiki/Computing_platform\" title=\"Computing platform\">Platform(s)</a></th><td class=\"infobox-data\"><a href=\"https://en.wikipedia.org/wiki/Wii\" title=\"Wii\">Wii</a></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\">Release</th><td class=\"infobox-data\"><div class=\"plainlist\"><ul><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/North_America\" title=\"North America\">NA</a>:</span> November 19, 2006</li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/Japan\" title=\"Japan\">JP</a>:</span> December 2, 2006</li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/Australasia\" title=\"Australasia\">AU</a>:</span> December 7, 2006</li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/Europe\" title=\"Europe\">EU</a>:</span> December 8, 2006</li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/South_Korea\" title=\"South Korea\">KOR</a>:</span> April 26, 2008</li></ul></div></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a href=\"https://en.wikipedia.org/wiki/Video_game_genre\" title=\"Video game genre\">Genre(s)</a></th><td class=\"infobox-data\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Sports_game\" title=\"Sports game\">Sports</a></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\">Mode(s)</th><td class=\"infobox-data\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Single-player\" title=\"Single-player\">Single-player</a>, <a href=\"https://en.wikipedia.org/wiki/Multiplayer_video_game\" title=\"Multiplayer video game\">multiplayer</a></td></tr></td></tr></tbody></table>"
+```
+
+
+```{r}
+str_replace("src = jdlqhqdkhqdskjdsqkjdsqkj> bibi", "src = .*?>", "")
+```
+
+```{r}
+" <table class=\"pct100\">
+    <tbody>
+      <tr valign=\"top\">
+        <td width=\"35%\"><div id=\"coreGameCover\">
+          <img alt='Artwork of a vertical rectangular box. The top third displays three screen shots from the game: two characters with boxing gloves fighting in a boxing ring, a character holding a bowling ball at a ball pit, and a character holding a golf at the putting green of a golf course The Wii logo is shown at the upper left corner. The center portion reads \"Wii Sports\" over five blue boxes depicting different sports equipment. The lower third displays two more screen shots from the game: a character holding a tennis racket at a Tennis court and a character swinging a baseball bat in a stadium. The PEGI \"7+\" rating is shown on the bottom left corner and the Nintendo logo is on the bottom right corner.' data-file-height=\"365\" data-file-width=\"260\" decoding=\"async\" height=\"309\" src=\"https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/Wii_Sports_Europe.jpg/220px-Wii_Sports_Europe.jpg\" srcset=\"https://upload.wikimedia.org/wikipedia/en/e/e0/Wii_Sports_Europe.jpg 1.5x\" width=\"220\"/>
+        </td>
+        <td width=\"65%\">
+          <div id=\"coreGameRelease\">
+            <div class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\">
+              <a href=\"https://en.wikipedia.org/wiki/Video_game_publisher\" title=\"Video game publisher\">
+                Publisher(s)
+              </a>
+            </div>
+            <div class=\"infobox-data\">
+              <a href=\"https://en.wikipedia.org/wiki/Nintendo\" title=\"Nintendo\">
+                Nintendo
+              </a>
+            </div>
+          </div><div><div class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Video_game_creative_director\" title=\"Video game creative director\">Director(s)</a></div><div class=\"infobox-data\"><div class=\"plainlist\"><ul><li>Keizo Ohta</li><li>Takayuki Shimamura</li><li>Yoshikazu Yamashita</li></ul></div></div></div><div><div class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a href=\"https://en.wikipedia.org/wiki/Video_game_producer\" title=\"Video game producer\">Producer(s)</a></div><div class=\"infobox-data\"><div class=\"plainlist\"><ul><li><a href=\"https://en.wikipedia.org/wiki/Katsuya_Eguchi\" title=\"Katsuya Eguchi\">Katsuya Eguchi</a></li><li>Kiyoshi Mizuki</li></ul></div></div></div><div><div class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Video_game_designer\" title=\"Video game designer\">Designer(s)</a></div><div class=\"infobox-data\">Junji Morii</div></div><div><div class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a href=\"https://en.wikipedia.org/wiki/Video_game_programmer\" title=\"Video game programmer\">Programmer(s)</a></div><div class=\"infobox-data\">Tsutomu Kaneshige</div></div><div><div class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Video_game_composer\" title=\"Video game composer\">Composer(s)</a></div><div class=\"infobox-data\"><a href=\"https://en.wikipedia.org/wiki/Kazumi_Totaka\" title=\"Kazumi Totaka\">Kazumi Totaka</a></div></div><div><div class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\">Series</div><div class=\"infobox-data\"><i><a href=\"https://en.wikipedia.org/wiki/Wii_(video_game_series)\" title=\"Wii (video game series)\">Wii</a></i></div></div><div><div class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a href=\"https://en.wikipedia.org/wiki/Computing_platform\" title=\"Computing platform\">Platform(s)</a></div><div class=\"infobox-data\"><a href=\"https://en.wikipedia.org/wiki/Wii\" title=\"Wii\">Wii</a></div></div><div><div class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\">Release</div><div class=\"infobox-data\"><div class=\"plainlist\"><ul><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/Nordiv_America\" title=\"Nordiv America\">NA</a>:</span> November 19, 2006</li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/Japan\" title=\"Japan\">JP</a>:</span> December 2, 2006</li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/Ausdivalasia\" title=\"Ausdivalasia\">AU</a>:</span> December 7, 2006</li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/Europe\" title=\"Europe\">EU</a>:</span> December 8, 2006</li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/Soudiv_Korea\" title=\"Soudiv Korea\">KOR</a>:</span> April 26, 2008</li></ul></div></div></div><div><div class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a href=\"https://en.wikipedia.org/wiki/Video_game_genre\" title=\"Video game genre\">Genre(s)</a></div><div class=\"infobox-data\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Sports_game\" title=\"Sports game\">Sports</a></div></div><div><div class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\">Mode(s)</div><div class=\"infobox-data\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Single-player\" title=\"Single-player\">Single-player</a>, <a href=\"https://en.wikipedia.org/wiki/Multiplayer_video_game\" title=\"Multiplayer video game\">multiplayer</a></div></div>
+          </div>
+        </td>
+     </tr>
+   </tbody>  
+</table>  
+"
+```
+
+
+```{r}
+"<table class=\"infobox hproduct\" style=\"float: left; width: 22em;\">7
+  <tbody>
+    <tr>
+      <th class=\"infobox-above fn\" colspan=\"2\" style=\"font-size:125%;font-style:italic;\">
+        Super Mario Bros.
+      </th>
+    </tr>
+    <tr>
+      <td class=\"infobox-image\" colspan=\"2\">
+        <a class=\"image\" href=\"https://en.wikipedia.org/wiki/File:Super_Mario_Bros._box.png\">
+          <img alt=\"Super Mario Bros. box.png\" data-file-height=\"342\" data-file-width=\"250\" decoding=\"async\" height=\"301\" src=\"https://upload.wikimedia.org/wikipedia/en/thumb/0/03/Super_Mario_Bros._box.png/220px-Super_Mario_Bros._box.png\" srcset=\"https://upload.wikimedia.org/wikipedia/en/0/03/Super_Mario_Bros._box.png 1.5x\" width=\"220\"/>
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\">
+        <a href=\"https://en.wikipedia.org/wiki/Video_game_developer\" title=\"Video game developer\">
+          Developer(s)
+        </a>
+      </th>
+      <td class=\"infobox-data\">
+        <a href=\"https://en.wikipedia.org/wiki/Nintendo_Entertainment_Analysis_%26_Development\" title=\"Nintendo Entertainment Analysis &amp; Development\">
+          Nintendo R&amp;D4
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\">
+        <a href=\"https://en.wikipedia.org/wiki/Video_game_publisher\" title=\"Video game publisher\">
+          Publisher(s)
+        </a>
+      </th>
+      <td class=\"infobox-data\">
+        <a href=\"https://en.wikipedia.org/wiki/Nintendo\" title=\"Nintendo\">
+          Nintendo
+        </a>
+      </td>
+    </tr>
+
+
+<tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Video_game_creative_director\" title=\"Video game creative director\">Director(s)</a></th><td class=\"infobox-data\"><a href=\"https://en.wikipedia.org/wiki/Shigeru_Miyamoto\" title=\"Shigeru Miyamoto\">Shigeru Miyamoto</a></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a href=\"https://en.wikipedia.org/wiki/Video_game_producer\" title=\"Video game producer\">Producer(s)</a></th><td class=\"infobox-data\">Shigeru Miyamoto</td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Video_game_designer\" title=\"Video game designer\">Designer(s)</a></th><td class=\"infobox-data\"><div class=\"plainlist\"><ul><li>Shigeru Miyamoto</li><li><a href=\"https://en.wikipedia.org/wiki/Takashi_Tezuka\" title=\"Takashi Tezuka\">Takashi Tezuka</a></li></ul></div></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a href=\"https://en.wikipedia.org/wiki/Video_game_programmer\" title=\"Video game programmer\">Programmer(s)</a></th><td class=\"infobox-data\"><div class=\"plainlist\"><ul><li>Toshihiko Nakago</li><li>Kazuaki Morita</li></ul></div></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Video_game_artist\" title=\"Video game artist\">Artist(s)</a></th><td class=\"infobox-data\"><div class=\"plainlist\"><ul><li>Shigeru Miyamoto</li><li>Takashi Tezuka</li></ul></div></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Video_game_composer\" title=\"Video game composer\">Composer(s)</a></th><td class=\"infobox-data\"><a href=\"https://en.wikipedia.org/wiki/Koji_Kondo\" title=\"Koji Kondo\">Koji Kondo</a></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\">Series</th><td class=\"infobox-data\"><i><a href=\"https://en.wikipedia.org/wiki/Super_Mario\" title=\"Super Mario\">Super Mario</a></i></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a href=\"https://en.wikipedia.org/wiki/Computing_platform\" title=\"Computing platform\">Platform(s)</a></th><td class=\"infobox-data\"><a href=\"https://en.wikipedia.org/wiki/Nintendo_Entertainment_System\" title=\"Nintendo Entertainment System\">Nintendo Entertainment System</a>, <a href=\"https://en.wikipedia.org/wiki/Arcade_game\" title=\"Arcade game\">arcade</a></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\">Release</th><td class=\"infobox-data\"><b>NES</b> <div class=\"plainlist\"><ul><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/Japan\" title=\"Japan\">JP</a>:</span> September 13, 1985<sup class=\"reference\" id=\"cite_ref-Sad_But_1-1\"><a href=\"https://en.wikipedia.org#cite_note-Sad_But-1\">[1]</a></sup></li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/North_America\" title=\"North America\">NA</a>:</span> October\u0096November 1985<sup class=\"reference\" id=\"cite_ref-Sad_But_1-0\"><a href=\"https://en.wikipedia.org#cite_note-Sad_But-1\">[1]</a></sup><sup class=\"reference\" id=\"cite_ref-dates_4-0\"><a href=\"https://en.wikipedia.org#cite_note-dates-4\">[a]</a></sup></li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/Europe\" title=\"Europe\">EU</a>:</span> May 15, 1987</li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/Australasia\" title=\"Australasia\">AU</a>:</span> 1987</li></ul></div> <b>Arcade</b> <div class=\"plainlist\"><ul><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/Europe\" title=\"Europe\">EU</a>:</span> January 1986<sup class=\"reference\" id=\"cite_ref-CVG53_6-0\"><a href=\"https://en.wikipedia.org#cite_note-CVG53-6\">[5]</a></sup></li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/North_America\" title=\"North America\">NA</a>:</span> February 1986<sup class=\"reference\" id=\"cite_ref-Akagi_5-0\"><a href=\"https://en.wikipedia.org#cite_note-Akagi-5\">[4]</a></sup></li></ul></div></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a href=\"https://en.wikipedia.org/wiki/Video_game_genre\" title=\"Video game genre\">Genre(s)</a></th><td class=\"infobox-data\"><a href=\"https://en.wikipedia.org/wiki/Platform_game\" title=\"Platform game\">Platform</a></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\">Mode(s)</th><td class=\"infobox-data\"><a href=\"https://en.wikipedia.org/wiki/Single-player_video_game\" title=\"Single-player video game\">Single-player</a>, <a href=\"https://en.wikipedia.org/wiki/Multiplayer_video_game\" title=\"Multiplayer video game\">multiplayer</a></td></tr><tr><th class=\"infobox-label\" scope=\"row\" style=\"white-space:nowrap;padding-right:0.65em;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Arcade_system_board\" title=\"Arcade system board\">Arcade system</a></th><td class=\"infobox-data\"><a href=\"https://en.wikipedia.org/wiki/Nintendo_VS._System\" title=\"Nintendo VS. System\">Nintendo VS. System</a></td></tr></tbody></table>"
+```
+
+
+```{r}
+data2[17,13] %>%
+str_replace("<div class=\"infobox-caption\".*?</div>", "") %>% 
+              str_replace_all("<td class=\"infobox-data.*?>", "<div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">") %>% 
+              str_replace_all("<th class=\"infobox-label.*?>", "<div style=\"font-size: 100%; font-weight: bold;\">") %>% 
+              str_replace_all("</td>", "</div>") %>% 
+              str_replace_all("</th>", "</div>") %>% 
+              str_replace_all("<td", "<div") %>% 
+              str_replace_all("<th", "<div") %>% 
+              str_replace_all("tr>", "div>") %>% 
+              str_replace_all('<a.*?>', "") %>% 
+              str_replace_all("</a>", "") %>% 
+              str_remove("<div><div class=\"infobox-above..*?</div></div>") %>% 
+              str_replace("<div style=\"font-size: 100%; font-weight: bold;\">", "</div></td><td width=\"65%\"><div id=\"coreGameRelease\"><div style=\"font-size: 100%; font-weight: bold;\">") %>% 
+              str_replace("<table.*?<tbody>", "<table class=\"pct100\"><tbody><tr valign=\"top\"><td width=\"35%\"><div id=\"coreGameCover\">") %>% 
+              #str_remove("<div>\\s*<div style=\"font-size: 100%; font-weight: bold;\">\\s*(Artist|Programmer|Composer|Release|Designer|Writer).*?</div>\\s*<div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">.*?(|</div>)</div></div>") %>%
+             str_remove("<div>\\s*<div style=\"font-size: 100%; font-weight: bold;\">\\s*Artist.*?</div>\\s*<div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">.*?(|</div>)</div></div>") %>%
+             str_remove("<div>\\s*<div style=\"font-size: 100%; font-weight: bold;\">\\s*Programmer.*?</div>\\s*<div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">.*?(|</div>)</div></div>") %>%
+             str_remove("<div>\\s*<div style=\"font-size: 100%; font-weight: bold;\">\\s*Composer.*?</div>\\s*<div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">.*?(|</div>)</div></div>") %>%
+             str_remove("<div>\\s*<div style=\"font-size: 100%; font-weight: bold;\">\\s*Release.*?</div>\\s*<div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">.*?(|</div>)</div></div>") %>%
+             str_remove("<div>\\s*<div style=\"font-size: 100%; font-weight: bold;\">\\s*Designer.*?</div>\\s*<div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">.*?(|</div>)</div></div>") %>%
+             str_remove("<div>\\s*<div style=\"font-size: 100%; font-weight: bold;\">\\s*Writer.*?</div>\\s*<div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">.*?(|</div>)</div></div>") %>%
+             # str_replace_all("<div style=\"font-size: 100%; font-weight: bold;\">.*?Artist.*?</div>.*?<div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">.*?<div style=\"font-size: 100%; font-weight: bold;\">", "<div style=\"font-size: 100%; font-weight: bold;\">") %>%
+             # str_replace_all("<div style=\"font-size: 100%; font-weight: bold;\">.*?Programmer.*?</div>.*?<div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">.*?<div style=\"font-size: 100%; font-weight: bold;\">", "<div style=\"font-size: 100%; font-weight: bold;\">") %>%
+             # str_replace_all("<div style=\"font-size: 100%; font-weight: bold;\">.*?Composer.*?</div>.*?<div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">.*?<div style=\"font-size: 100%; font-weight: bold;\">", "<div style=\"font-size: 100%; font-weight: bold;\">") %>%
+             # str_replace_all("<div style=\"font-size: 100%; font-weight: bold;\">.*?Release.*?</div>.*?<div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">.*?<div style=\"font-size: 100%; font-weight: bold;\">", "<div style=\"font-size: 100%; font-weight: bold;\">") %>%
+             # str_replace_all("<div style=\"font-size: 100%; font-weight: bold;\">.*?Designer.*?</div>.*?<div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">.*?<div style=\"font-size: 100%; font-weight: bold;\">", "<div style=\"font-size: 100%; font-weight: bold;\">") %>%
+             # str_replace_all("<div style=\"font-size: 100%; font-weight: bold;\">.*?Writer.*?</div>.*?<div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">.*?<div style=\"font-size: 100%; font-weight: bold;\">", "<div style=\"font-size: 100%; font-weight: bold;\">") %>%
+              str_replace("</tbody></table>", "</div></td></tr></tbody></table>")
+```
+
+```{r}
+"<table class=\"pct100\">
+  <tbody>
+    <tr valign=\"top\">
+      <td width=\"35%\">
+        <div id=\"coreGameCover\">
+          <tr>
+            <div class=\"infobox-above fn\" colspan=\"2\" style=\"font-size:125%;font-style:italic;\">
+              Wii Sports
+            </div>
+          </tr>
+          <tr>
+            <div class=\"infobox-image\" colspan=\"2\">
+              <a class=\"image\" href=\"https://en.wikipedia.org/wiki/File:Wii_Sports_Europe.jpg\">
+                <img alt='Artwork of a vertical rectangular box. The top third displays three screen shots from the game: two characters with boxing gloves fighting in a boxing ring, a character holding a bowling ball at a ball pit, and a character holding a golf at the putting green of a golf course The Wii logo is shown at the upper left corner. The center portion reads \"Wii Sports\" over five blue boxes depicting different sports equipment. The lower third displays two more screen shots from the game: a character holding a tennis racket at a Tennis court and a character swinging a baseball bat in a stadium. The PEGI \"7+\" rating is shown on the bottom left corner and the Nintendo logo is on the bottom right corner.' data-file-height=\"365\" data-file-width=\"260\" decoding=\"async\" height=\"309\" src=\"https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/Wii_Sports_Europe.jpg/220px-Wii_Sports_Europe.jpg\" srcset=\"https://upload.wikimedia.org/wikipedia/en/e/e0/Wii_Sports_Europe.jpg 1.5x\" width=\"220\"/>
+              </a>
+            </div>
+          </tr>
+          <tr>
+        </div>
+      </td>
+      <td width=\"65%\">
+        <div id=\"coreGameRelease\">
+          <div style=\"font-size: 100%; font-weight: bold;\">
+            <a href=\"https://en.wikipedia.org/wiki/Video_game_developer\" title=\"Video game developer\">
+              Developer(s)
+            </a>
+          </div>
+          <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+            <a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Nintendo_EAD\" title=\"Nintendo EAD\">Nintendo EAD</a></div></tr><tr><div style=\"font-size: 100%; font-weight: bold;\"><a href=\"https://en.wikipedia.org/wiki/Video_game_publisher\" title=\"Video game publisher\">Publisher(s)</a></div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"><a href=\"https://en.wikipedia.org/wiki/Nintendo\" title=\"Nintendo\">Nintendo</a></div></tr><tr><div style=\"font-size: 100%; font-weight: bold;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Video_game_creative_director\" title=\"Video game creative director\">Director(s)</a></div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"><div class=\"plainlist\"><ul><li>Keizo Ohta</li><li>Takayuki Shimamura</li><li>Yoshikazu Yamashita</li></ul></div></div></tr><tr><div style=\"font-size: 100%; font-weight: bold;\"><a href=\"https://en.wikipedia.org/wiki/Video_game_producer\" title=\"Video game producer\">Producer(s)</a></div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"><div class=\"plainlist\"><ul><li><a href=\"https://en.wikipedia.org/wiki/Katsuya_Eguchi\" title=\"Katsuya Eguchi\">Katsuya Eguchi</a></li><li>Kiyoshi Mizuki</li></ul></div></div></tr><tr><div style=\"font-size: 100%; font-weight: bold;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Video_game_designer\" title=\"Video game designer\">Designer(s)</a></div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">Junji Morii</div></tr><tr><div style=\"font-size: 100%; font-weight: bold;\"><a href=\"https://en.wikipedia.org/wiki/Video_game_programmer\" title=\"Video game programmer\">Programmer(s)</a></div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">Tsutomu Kaneshige</div></tr><tr><div style=\"font-size: 100%; font-weight: bold;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Video_game_composer\" title=\"Video game composer\">Composer(s)</a></div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"><a href=\"https://en.wikipedia.org/wiki/Kazumi_Totaka\" title=\"Kazumi Totaka\">Kazumi Totaka</a></div></tr><tr><div style=\"font-size: 100%; font-weight: bold;\">Series</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"><i><a href=\"https://en.wikipedia.org/wiki/Wii_(video_game_series)\" title=\"Wii (video game series)\">Wii</a></i></div></tr><tr><div style=\"font-size: 100%; font-weight: bold;\"><a href=\"https://en.wikipedia.org/wiki/Computing_platform\" title=\"Computing platform\">Platform(s)</a></div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"><a href=\"https://en.wikipedia.org/wiki/Wii\" title=\"Wii\">Wii</a></div></tr><tr><div style=\"font-size: 100%; font-weight: bold;\">Release</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"><div class=\"plainlist\"><ul><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/North_America\" title=\"North America\">NA</a>:</span> November 19, 2006</li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/Japan\" title=\"Japan\">JP</a>:</span> December 2, 2006</li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/Australasia\" title=\"Australasia\">AU</a>:</span> December 7, 2006</li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/Europe\" title=\"Europe\">EU</a>:</span> December 8, 2006</li><li><span style=\"font-size:95%;\"><a href=\"https://en.wikipedia.org/wiki/South_Korea\" title=\"South Korea\">KOR</a>:</span> April 26, 2008</li></ul></div></div></tr><tr><div style=\"font-size: 100%; font-weight: bold;\"><a href=\"https://en.wikipedia.org/wiki/Video_game_genre\" title=\"Video game genre\">Genre(s)</a></div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Sports_game\" title=\"Sports game\">Sports</a></div></tr><tr><div style=\"font-size: 100%; font-weight: bold;\">Mode(s)</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"><a class=\"mw-redirect\" href=\"https://en.wikipedia.org/wiki/Single-player\" title=\"Single-player\">Single-player</a>, <a href=\"https://en.wikipedia.org/wiki/Multiplayer_video_game\" title=\"Multiplayer video game\">multiplayer</a></div></tr></div></td></tr></tbody></table>"
+```
+
+
+```{r}
+str_remove("dhjkdqbe djo", "dhjkdqb(|s) (dja|djo)")
+```
+
+```{r}
+POURQUOI = "<div><div style=\"font-size: 100%; font-weight: bold;\">Composer(s)</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"><div class=\"plainlist\"><ul><li>Tangerine Dream</li><li>Woody Jackson</li><li>The Alchemist</li><li>Oh No</li></ul></div></div>"
+
+POURQUOI %>% str_remove("<div><div style=\"font-size: 100%; font-weight: bold;\">.*?Composer.*?</div>.*?<div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">.*?(|</div>)</div></div>") 
+```
+
+```{r}
+tchou <- "<div><div style=\"font-size: 100%; font-weight: bold;\">Release</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"><div class=\"mw-collapsible mw-collapsed\" style=\"text-align: center; font-size: 95%;\">\r\n<div style=\"line-height: 1.6em; font-weight: bold; font-size: 100%; text-align: left;\"><div><style data-mw-deduplicate=\"TemplateStyles:r886047488\">.mw-parser-output .nobold{font-weight:normal}</style><span class=\"nobold\">17 September 2013</span></div></div>\r\n<ul class=\"mw-collapsible-content\" style=\"font-size: 105%; margin-top: 0; margin-bottom: 0; line-height: inherit; text-align: left; list-style: none none; margin-left: 0;\"><li style=\"line-height: inherit; margin: 0\"><b>PS3</b>, <b>Xbox 360</b></li><li style=\"line-height: inherit; margin: 0\">17 September 2013</li><li style=\"line-height: inherit; margin: 0\"><b>PS4</b>, <b>Xbox One</b></li><li style=\"line-height: inherit; margin: 0\">18 November 2014</li><li style=\"line-height: inherit; margin: 0\"><b>Microsoft Windows</b></li><li style=\"line-height: inherit; margin: 0\">14 April 2015</li><li style=\"line-height: inherit; margin: 0\"><b>PS5</b>, <b>Xbox Series X/S</b></li><li style=\"line-height: inherit; margin: 0\">15 March 2022</li></ul>\r\n</div></div></div>"
+
+tchou %>%
+  str_remove("<div><div style=\"font-size: 100%; font-weight: bold;\">(Artist|Programmer|Composer|Release|Designer|Writer)</div>[\\D\\d]*?</div></div></div>") %>%
+  str_remove("<div><div style=\"font-size: 100%; font-weight: bold;\">(Artist|Programmer|Composer|Release|Designer|Writer)</div>[\\D\\d]*?</div></div>")
+```
+
