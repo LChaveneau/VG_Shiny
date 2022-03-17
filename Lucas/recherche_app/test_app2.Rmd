@@ -99,16 +99,16 @@ data[,1:3] %>% slice(1:3) %>%
 ```
  
 ```{r}
-data$Annee <- as.factor(data$Annee)
+Annee <- as.factor(Annee)
 ```
 
 ```{r}
-levels(data$Annee)
+levels(Annee)
 ```
 
 ```{r}
-data$platform <- as.factor(data$platform)
-levels(data$platform)
+platform <- as.factor(platform)
+levels(platform)
 ```
  
  
@@ -174,10 +174,10 @@ data %>%
   filter(choix > 0)
 
 data %>% 
-  mutate(choix = rowSums(select(data$Troisieme_personne, data$Derriere)))
+  mutate(choix = rowSums(select(Troisieme_personne, Derriere)))
 
 data %>% 
-  filter(rowwise(c(data$Strategie, data$Sports)) > 0)
+  filter(rowwise(c(Strategie, Sports)) > 0)
 
 data %>% 
   filter(rowsum(Action, Puzzle) > 0)
@@ -196,7 +196,7 @@ mutate(data, choix = select(data, ))
 ```
 
 ```{r}
-select(data$Action)
+select(Action)
 ```
 
 ```{r}
@@ -205,7 +205,7 @@ paste0('df')
 ```{r}
 data %>% 
   rowwise() %>% 
-  mutate(truc = sum(c(data$Action, data$Puzzle)))
+  mutate(truc = sum(c(Action, Puzzle)))
 ```
 
 ```{r}
@@ -223,7 +223,7 @@ class(data)
 data[c('Action', 'Puzzle')]
 ```
 ```{r}
-data[,c(data$Action, data$Puzzle)]
+data[,c(Action, Puzzle)]
 ```
 
 ```{r}
@@ -242,7 +242,7 @@ numeric(1)
 ```
 
 ```{r}
-cat(data$Description[1])
+cat(Description[1])
 ```
 ```{r}
 description <- data %>% slice(3) %>% pull(Description)
@@ -275,11 +275,11 @@ desc %>% str_to_upper() %>% str_to_sentence()
 ## Creation des noms de publisher 
 
 ```{r}
-data$Publisher <- as.factor(data$Publisher)
+Publisher <- as.factor(Publisher)
 ```
 
 ```{r}
-truc = fct_count(data$Publisher, sort = T)[1:3500,1]
+truc = fct_count(Publisher, sort = T)[1:3500,1]
 ```
 
 ```{r}
@@ -426,3 +426,294 @@ data %>% slice(1) %>% select(Description) %>%
 \"All articles lacking reliable references\",\"Articles lacking reliable references from May 2021\",\"Articles needing additional references from May 2021\",\"All articles needing additional references\",\"Nintendo divisions and subsidiaries\",\"Video game companies established in 1983\",\"Video game companies disestablished in 2015\",\"Defunct video game companies of Japan\",\"Japanese companies disestablished in 2015\",\"Japanese companies established in 1983\"],\"wgPageContentLanguage\":\"en\",\"wgPageContentModel\":\"wikitext\",\"wgRelevantPageName\":\"Nintendo_Entertainment_Analysis_\u0026_Development\",\"wgRelevantArticleId\":1310632,\"wgIsProbablyEditable\":true,\"wgRelevantPageIsProbablyEditable\":true,\"wgRestrictionEdit\":[],\"wgRestrictionMove\":[],\"wgRedirectedFrom\":\"Nintendo_EAD\",\"wgFlaggedRevsParams\":{\"tags\":{\"status\":{\"levels\":-1}}},\"wgVisualEditor\":{\"pageLanguageCode\":\"en\",\"pageLanguageDir\":\"ltr\",\"pageVariantFallbacks\":\"en\"},\"wgMFDisplayWikibaseDescriptions\":{\"search\":true,\"nearby\":true,\"watchlist\":true,
 \"tagline\":false},\"wgWMESchemaEditAttemptStepOversample\":false,\"wgWMEPageLength\":60000,\"wgNoticeProject\":\"wikipedia\",\"wgMediaViewerOnClick\":true,\"wgMediaViewerEnabledByDefault\":true,\"wgPopupsFlags\":10,\"wgULSCurrentAutonym\":\"English\",\"wgInternalRedirectTargetUrl\":\"/wiki/Nintendo_Entertainment_Analysis_%26_Development\",\"wgEditSubmitButtonLabelPublish\":true,\"wgCentralAuthMobileDomain\":false,\"wgULSPosition\":\"interlanguage\",\"wgULSisCompactLinksEnabled\":true,\"wgWikibaseItemId\":\"Q170420\",\"wgGENewcomerTasksGuidanceEnabled\":true,\"wgGEAskQuestionEnabled\":false,\"wgGELinkRecommendationsFrontendEnabled\":false};RLSTATE={\"ext.globalCssJs.user.styles\":\"ready\",\"site.styles\":\"ready\",\"user.styles\":\"ready\",\"ext.globalCssJs.user\":\"ready\",\"user\":\"ready\",\"user.options\":\"loading\",\"ext.cite.styles\":\"ready\",\"skins.vector.styles.legacy\":\"ready\",\"jquery.tablesorter.styles\":\"ready\",\"jquery.makeCollapsible.styles\":\"ready\",\"ext.visualEditor.desktopArticleTarget.noscript\":\"ready\",\"ext.wikimediaBadges\":\"ready\",
 \"ext.uls.interlanguage\":\"ready\",\"wikibase.client.init\":\"ready\"};RLPAGEMODULES=[\"mediawiki.action.view.redirect\",\"ext.cite.ux-enhancements\",\"site\",\"mediawiki.page.ready\",\"jquery.tablesorter\",\"jquery.makeCollapsible\",\"mediawiki.toc\",\"skins.vector.legacy.js\",\"ext.gadget.ReferenceTooltips\",\"ext.gadget.charinsert\",\"ext.gadget.extra-toolbar-buttons\",\"ext.gadget.refToolbar\",\"ext.gadget.switcher\",\"mmv.head\",\"mmv.bootstrap.autostart\",\"ext.visualEditor.desktopArticleTarget.init\",\"ext.visualEditor.targetLoader\",\"ext.eventLogging\",\"ext.wikimediaEvents\",\"ext.navigationTiming\",\"ext.cx.eventlogging.campaigns\",\"ext.centralNotice.geoIP\",\"ext.centralNotice.startUp\",\"ext.centralauth.centralautologin\",\"ext.popups\",\"ext.uls.compactlinks\",\"ext.uls.interface\",\"ext.growthExperiments.SuggestedEditSession\"];</script>"
+
+
+```{r}
+data <- readRDS('data_jeux_2.rds')
+data2 <- readRDS("data_jeux_image.rds")
+```
+
+```{r}
+data.merge <- data %>% select("titre", "published":"misc")
+data.merge <- data.merge[!duplicated(data.merge$titre),]
+data.test <- data2%>% 
+  left_join(data.merge, c("Name" = "titre"))
+```
+
+
+
+```{r}
+" <table class=\"pct100\">
+    <tbody>
+      <tr valign=\"top\">
+        <td width=\"1%\"><div id=\"coreGameCover\">
+          <a href=\"https://www.mobygames.com/game/alone-in-the-dark/cover-art/gameCoverId,440/\">
+            <img alt=\"Alone in the Dark DOS Front Cover\" border=\"0\" src=\"/images/covers/s/440-alone-in-the-dark-dos-front-cover.jpg\" height=\"152\" width=\"120\">
+          </a>
+        </td>
+        <td width=\"48%\">
+          <div id=\"coreGameRelease\">
+            <div style=\"font-size: 100%; font-weight: bold;\">
+              Published by
+            </div>
+            <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+              <a href=\"https://www.mobygames.com/company/atari-europe-sasu\">
+                Infogrames&nbsp;Europe&nbsp;SA
+              </a>
+            </div>
+            <div style=\"font-size: 100%; font-weight: bold;\">
+              Developed by
+            </div>
+            <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+              <a href=\"https://www.mobygames.com/company/atari-europe-sasu\">
+                Infogrames&nbsp;Europe&nbsp;SA
+              </a>
+            </div>
+            <div style=\"font-size: 100%; font-weight: bold;\">
+              Released
+            </div>
+            <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+              <a href=\"https://www.mobygames.com/game/alone-in-the-dark/release-info\">
+                1992
+              </a>
+            </div>
+            <div style=\"font-size: 100%; font-weight: bold;\">
+              Platforms
+            </div>
+            <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+              <a href=\"https://www.mobygames.com/game/3do/alone-in-the-dark\">
+                3DO
+              </a>, 
+              <a href=\"https://www.mobygames.com/game/acorn-32-bit/alone-in-the-dark\">
+                Acorn 32-bit
+              </a>
+              , 
+              <a href=\"https://www.mobygames.com/game/dos/alone-in-the-dark\">
+                DOS
+              </a>
+            </div>
+          </div>
+        </td>
+        <td width=\"48%\">
+          <div id=\"coreGameGenre\">
+            <div>
+              <div style=\"font-size: 100%; font-weight: bold;\">
+                Genre
+              </div>
+            <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+              <a href=\"https://www.mobygames.com/genre/sheet/action/\">
+                Action
+              </a>
+            </div>
+            <div style=\"font-size: 100%; font-weight: bold;\">
+              Perspective</div>
+            <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+              <a href=\"https://www.mobygames.com/genre/sheet/3rd-person/\">
+                3rd-person&nbsp;(Other)
+              </a>
+            </div>
+            <div style=\"font-size: 100%; font-weight: bold;\">
+              Visual
+            </div>
+            <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+              <a href=\"https://www.mobygames.com/genre/sheet/cinematic-camera/\">
+                Cinematic&nbsp;camera
+              </a>
+            </div>
+            <div style=\"font-size: 100%; font-weight: bold;\">
+              Gameplay
+            </div>
+            <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+              <a href=\"https://www.mobygames.com/genre/sheet/puzzle-elements/\">
+                Puzzle&nbsp;elements
+              </a>, 
+              <a href=\"https://www.mobygames.com/genre/sheet/survival-horror/\">
+                Survival&nbsp;horror
+              </a>
+            </div>
+            <div style=\"font-size: 100%; font-weight: bold;\">
+              Setting
+            </div>
+            <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+              <a href=\"https://www.mobygames.com/genre/sheet/interwar/\">
+                Interwar
+              </a>
+            </div>
+            <div style=\"font-size: 100%; font-weight: bold;\">
+              Narrative
+            </div>
+            <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+              <a href=\"https://www.mobygames.com/genre/sheet/horror/\">
+                Horror
+              </a>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>  
+</table>
+"
+```
+
+
+```{r}
+" <table class=\"pct100\">
+    <tbody>
+      <tr valign=\"top\">
+        <td width=\"1%\"><div id=\"coreGameCover\">
+          <img alt=\"Alone in the Dark DOS Front Cover\" border=\"0\" src=\"https://lh6.googleusercontent.com/proxy/ArqMUjwLTH8fwuNnxIWgh6VJ96iZRNrC2cCd9A-0Sz_yOqz2zo0mstHMh1etS0D8Ap6kz6XQT4C5yY1YjGaDkX5zB-G_CFhFlb4y7_ePBIlknO351AHIDLVG0VsQw_KQti3uuOkqHbE=w1200-h630-p-k-no-nu\" height=\"\" width=\"120\">
+        </td>
+        <td width=\"48%\">
+          <div id=\"coreGameRelease\">
+            <div style=\"font-size: 100%; font-weight: bold;\">
+              Published by
+            </div>
+            <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+              Infogrames&nbsp;Europe&nbsp;SA
+            </div>
+            <div style=\"font-size: 100%; font-weight: bold;\">
+              Developed by
+            </div>
+            <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+              Infogrames&nbsp;Europe&nbsp;SA
+            </div>
+            <div style=\"font-size: 100%; font-weight: bold;\">
+              Released
+            </div>
+            <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+              1992
+            </div>
+            <div style=\"font-size: 100%; font-weight: bold;\">
+              Platforms
+            </div>
+            <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+              3DO,
+              Acorn 32-bit, 
+              DOS
+            </div>
+          </div>
+        </td>
+        <td width=\"48%\">
+          <div id=\"coreGameGenre\">
+            <div>
+              <div style=\"font-size: 100%; font-weight: bold;\">
+                Genre
+              </div>
+              <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+                Action
+              </div>
+              <div style=\"font-size: 100%; font-weight: bold;\">
+                Perspective</div>
+              <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+                3rd-person&nbsp;(Other)
+              </div>
+              <div style=\"font-size: 100%; font-weight: bold;\">
+                Visual
+              </div>
+              <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+                Cinematic&nbsp;camera
+              </div>
+              <div style=\"font-size: 100%; font-weight: bold;\">
+                Gameplay
+              </div>
+              <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+                Puzzle&nbsp;elements,
+                Survival&nbsp;horror
+              </div>
+              <div style=\"font-size: 100%; font-weight: bold;\">
+                Setting
+              </div>
+              <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+                Interwar
+              </div>
+              <div style=\"font-size: 100%; font-weight: bold;\">
+                Narrative
+              </div>
+              <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">
+                Horror
+              </div>
+            </div>
+          </div>
+       </td>
+     </tr>
+   </tbody>  
+</table>  
+"
+```
+
+```{r}
+
+valeur = paste0("<h1>",data.test[1,]$Name,"</h1><br></br>","<table class=\"pct100\"><tbody><tr valign=\"top\"><td width=\"1%\"><div id=\"coreGameCover\">")
+
+if(is.na(data.test[3,]$image) == FALSE){
+  valeur = paste(
+    valeur, data.test[1,]$image)
+}else{
+  valeur = paste(valeur,
+                 "<img alt=\"Alone in the Dark DOS Front Cover\" border=\"0\" src=\"https://image.freepik.com/icones-gratuites/point-d-39-interrogation_318-52837.jpg\" height=\"100\" width=\"120\">")
+}
+
+valeur = paste0(valeur, "</td><td width=\"48%\"><div id=\"coreGameRelease\">")
+
+if(is.na(data.test[1,]$published) == FALSE){
+  valeur = paste(
+    valeur, "<div style=\"font-size: 100%; font-weight: bold;\">Published by</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",data.test[1,]$published,"</div>"
+    )
+}
+if(is.na(data.test[1,]$developed) == FALSE){
+  valeur = paste(valeur,
+                  "<div style=\"font-size: 100%; font-weight: bold;\">Developed by</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",data.test[1,]$developed,"</div>")
+}
+  
+if(is.na(data.test[1,]$released) == FALSE){
+  valeur = paste(valeur,
+                  "<div style=\"font-size: 100%; font-weight: bold;\">Released</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",data.test[1,]$released,"</div>")
+  
+}
+  
+if(is.na(data.test[1,]$platform.y) == FALSE){
+  valeur = paste(valeur, 
+                  "<div style=\"font-size: 100%; font-weight: bold;\">Platforms</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",data.test[1,]$platform,"</div>")
+}
+
+valeur = paste(
+  valeur, 
+  "</div></td><td width=\"48%\"><div id=\"coreGameGenre\"><div>")
+
+
+if(is.na(data.test[1,]$genre) == FALSE){
+  valeur = paste(valeur,
+         "<div style=\"font-size: 100%; font-weight: bold;\">Genre</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",data.test[1,]$genre,"</div>")
+}
+
+if(is.na(data.test[1,]$gameplay) == FALSE){
+  valeur = paste(valeur,
+                  "<div style=\"font-size: 100%; font-weight: bold;\">Gameplay</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",data.test[1,]$gameplay,"</div>")
+}
+
+if(is.na(data.test[1,]$setting) == FALSE){
+  valeur = paste(valeur,"<div style=\"font-size: 100%; font-weight: bold;\">Setting</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",data.test[1,]$setting,"</div>")
+}
+
+if(is.na(data.test[1,]$narrative) == FALSE){
+  valeur = paste(valeur,"<div style=\"font-size: 100%; font-weight: bold;\">Narrative</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",data.test[1,]$narrative,"</div>")
+}
+
+if(is.na(data.test[1,]$edition) == FALSE){
+  valeur = paste(valeur,"<div style=\"font-size: 100%; font-weight: bold;\">Edition</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",data.test[1,]$edition,"</div>")
+}
+
+if(is.na(data.test[1,]$visual) == FALSE){
+  valeur = paste(valeur,"<div style=\"font-size: 100%; font-weight: bold;\">Visual</div>
+              <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",data.test[1,]$visual,"</div>")
+}
+
+if(is.na(data.test[1,]$misc) == FALSE){
+    valeur = paste(valeur,"<div style=\"font-size: 100%; font-weight: bold;\">Misc</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",data.test[1,]$misc,"</div>")
+}
+
+valeur = paste(valeur,"</div></div></td></tr></tbody></table>  ")
+```
+
+

@@ -7,6 +7,13 @@
 #    http://shiny.rstudio.com/
 #
 
+library(shiny)
+library(tidyverse)
+library(tidyr)
+library(DT)
+library(fresh)
+library(bslib)
+
 boxStyle ='color:black; background-color:#DE4F53; border-radius: .1em; color:white; align:right; text-align:left; display: table-cell;'
 my_theme <- bs_theme(
   bg = "#e5e5e5", fg = "#0d0c0c", primary = "#dd2020",
@@ -18,15 +25,11 @@ my_theme <- bs_theme(
     '@import "https://unpkg.com/nes.css@latest/css/nes.min.css"'
   )
 
-library(shiny)
-library(tidyverse)
-library(tidyr)
-library(DT)
-library(fresh)
-library(bslib)
 
 df <- read_csv('vgsales2.csv')
 df2 <- readRDS('data_jeux_image.rds')
+df2 <- df2 %>% 
+  left_join(readRDS("data_jeux_code_html.rds"), c("Name" = "Name"))
 
 df <- df  %>% 
   mutate(Platform = as.factor(Platform)) %>% 
@@ -502,31 +505,26 @@ server <- function(input, output) {
     }
     })
      output$desc2 <- renderText({
-       paste0(" ")
      })
      
-     output$image <- renderText({       
+     output$image <- renderText({
+
        if(is.null(input$Tablo_rows_selected) == FALSE){
          if(input$type_recommandation == "Popularite"){
-         image <- tablo() %>%
+         code_html <- tablo() %>%
            slice(input$Tablo_rows_selected) %>%
-           pull(image)
-         titre <- tablo() %>% 
-           slice(input$Tablo_rows_selected) %>%
-           pull(Name)
-         code_html <- paste0("<h1>",titre,"</h1>",image)
+           pull(code_html)
          }
-         
-         
+
          if(input$type_recommandation == "Vente"){
            code_html <- tablo() %>%
              slice(input$Tablo_rows_selected) %>%
              pull(tableau) %>%
-             str_replace("<table", "<center><table") %>% 
-             str_replace("</table>", "</table></center>") %>% 
-             str_replace("<a class=\"image\"", "<center><a class=\"image\"") %>% 
-             str_replace("/></a>", "/></a></center>") %>% 
-             str_replace("style=\"float: left;", "style=\"float: center; background-color: #DE4F53;") %>% 
+             str_replace("<table", "<center><table") %>%
+             str_replace("</table>", "</table></center>") %>%
+             str_replace("<a class=\"image\"", "<center><a class=\"image\"") %>%
+             str_replace("/></a>", "/></a></center>") %>%
+             str_replace("style=\"float: left;", "style=\"float: center; background-color: #FAFF52;") %>%
              str_replace("style=\"font-size:125%;font-style:italic;", "style=\"font-size:200%;font-style:italic; text-align: center;
 ")
            }
