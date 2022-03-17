@@ -28,4 +28,4 @@ data <- data %>% mutate(
   tableau = paste0("<h1>",Name,"</h1><br></br>", modifie_tableau(tableau))
 )
 
-write.csv(data,"C:\\Users\\Lucas\\Documents\\M2\\S2\\Big data\\Lucas\\data\\vgsales3.csv", row.names = FALSE)
+write.csv(data, "C:\\Users\\Lucas\\Documents\\M2\\S2\\Big data\\data\\vgsales3.csv", row.names = FALSE)
