@@ -21,7 +21,7 @@ creer_html<-function(Name, image, published, developed, released, platform.y, ge
                    "<img alt=\"Alone in the Dark DOS Front Cover\" border=\"0\" src=\"https://lh6.googleusercontent.com/proxy/ArqMUjwLTH8fwuNnxIWgh6VJ96iZRNrC2cCd9A-0Sz_yOqz2zo0mstHMh1etS0D8Ap6kz6XQT4C5yY1YjGaDkX5zB-G_CFhFlb4y7_ePBIlknO351AHIDLVG0VsQw_KQti3uuOkqHbE=w1200-h630-p-k-no-nu\" height=\"120\" width=\"120\">")
   }
   
-  valeur = paste0(valeur, "</td><td width=\"48%\"><div id=\"coreGameRelease\">")
+  valeur = paste0(valeur, "</div></td><td width=\"48%\"><div id=\"coreGameRelease\">")
   
   if(is.na(published) == FALSE){
     valeur = paste(
@@ -46,7 +46,7 @@ creer_html<-function(Name, image, published, developed, released, platform.y, ge
   
   valeur = paste(
     valeur, 
-    "</div></td><td width=\"48%\"><div id=\"coreGameGenre\"><div>")
+    "</div></td><td width=\"48%\"><div id=\"coreGameGenre\">")
   
   
   if(is.na(genre) == FALSE){
@@ -85,7 +85,7 @@ creer_html<-function(Name, image, published, developed, released, platform.y, ge
     valeur = paste(valeur,"<div style=\"font-size: 100%; font-weight: bold;\">Misc</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",misc %>% str_replace_all("\\&nbsp", " "),"</div>")
   }
   
-  valeur = paste(valeur,"</div></div></td></tr></tbody></table>  ")
+  valeur = paste(valeur,"</div></td></tr></tbody></table>  ")
   
   return(valeur)
 }
@@ -95,7 +95,7 @@ creer_html <- Vectorize(creer_html)
 data_test <- data.test  %>% 
   mutate(code_html = creer_html(Name = Name, image = image, published = published, developed = developed, released = released, platform.y = platform.y, genre = genre, perspective = perspective, gameplay = gameplay, setting = setting, narrative = narrative, misc = misc, edition = edition, visual = visual))
 
-data_test[1400,2]
+data_test$code_html <- as.character(data_test$code_html)
 
 data_test <- data_test %>% 
   select(Name, code_html)

@@ -1010,10 +1010,80 @@ tchou %>%
 
 
 ```{r}
-data_test[1,2] %>% str_replace("\&e", "")
+df2 <- readRDS('data_jeux_image.rds')
+df2 <- df2 %>% 
+  left_join(readRDS("data_jeux_code_html.rds"), c("Name" = "Name"))
+```
+
+
+```{r}
+data_jeux_code_html[68518,2]
 ```
 
 ```{r}
-"&e" %>% str_replace("\\&e", "")
+"<h1>007 Ice Racer</h1><br></br><td style = \"float:left; display: inline-block; width: 33%;\" width=\"1%\"><div id=\"coreGameCover\" style = \"float:left; display: inline-block; width: 33%;\"> <img alt=\"007 Ice Racer ExEn Game splashscreen\" border=\"0\" height=\"80\" src=\"https://www.mobygames.com/images/shots/s/149436-007-ice-racer-exen-screenshot-game-splashscreen.jpg\" title=\"Missing cover image (using game screenshot)\" width=\"104\"/></div></td><td  style = \"float:left; display: inline-block;  width: 33%;\" width=\"48%\"><div id=\"coreGameRelease\" style = \"float:left; display: inline-block; width: 33%;\"> <div style=\"font-size: 100%; font-weight: bold;\">Published by</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> In-Fusio </div> <div style=\"font-size: 100%; font-weight: bold;\">Developed by</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> In-Fusio </div> <div style=\"font-size: 100%; font-weight: bold;\">Released</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Nov 01, 2002 </div> <div style=\"font-size: 100%; font-weight: bold;\">Platforms</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> ExEn </div> </div></td><td  style = \"float:left; display: inline-block; width: 33%;\" width=\"48%\"><div id=\"coreGameGenre\" style = \"float:left; display: inline-block; width: 33%;\"><div> <div style=\"font-size: 100%; font-weight: bold;\">Genre</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Action, Racing / driving </div> <div style=\"font-size: 100%; font-weight: bold;\">Gameplay</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Arcade </div> <div style=\"font-size: 100%; font-weight: bold;\">Perspective</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Behind view </div> <div style=\"font-size: 100%; font-weight: bold;\">Misc</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Licensed </div> </div></td>"
+```
+
+```{r}
+"<h1>FIFA 21: Beckham Edition</h1><br></br><table class=\"pct100\"><tbody><tr valign=\"top\"><td width=\"1%\"><div id=\"coreGameCover\"> <img alt=\"FIFA 21: Beckham Edition Xbox Series Front Cover\" border=\"0\" height=\"180\" src=\"https://www.mobygames.com/images/covers/s/704514-fifa-21-beckham-edition-xbox-series-front-cover.jpg\" width=\"120\"/></div></td><td width=\"48%\"><div id=\"coreGameRelease\"> <div style=\"font-size: 100%; font-weight: bold;\">Published by</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Electronic Arts, Inc. </div> <div style=\"font-size: 100%; font-weight: bold;\">Developed by</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Electronic Arts Romania SRL, Electronic Arts Vancouver </div> <div style=\"font-size: 100%; font-weight: bold;\">Released</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Dec 03, 2020 </div> <div style=\"font-size: 100%; font-weight: bold;\">Platforms</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> PlayStation 5, Xbox Series </div> </div></td><td width=\"48%\"><div id=\"coreGameGenre\"><div> <div style=\"font-size: 100%; font-weight: bold;\">Genre</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Simulation, Special edition, Sports </div> <div style=\"font-size: 100%; font-weight: bold;\">Gameplay</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Managerial / business simulation </div> <div style=\"font-size: 100%; font-weight: bold;\">Perspective</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Diagonal-down </div> <div style=\"font-size: 100%; font-weight: bold;\">Edition</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Extra content / game </div> <div style=\"font-size: 100%; font-weight: bold;\">Visual</div>\n              <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> 2D scrolling </div> <div style=\"font-size: 100%; font-weight: bold;\">Misc</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Licensed </div> </div></td></tr></tbody></table>"  %>% 
+  str_remove("^.*?>")
+```
+
+```{r}
+code_html<-data_test %>%
+  slice(68518) %>% 
+  pull(code_html)
+            
+```
+
+```{r}
+paste(code_html)
+```
+
+
+```{r}
+df2 <- readRDS('data_jeux_image.rds')
+df2 <- df2 %>% 
+  left_join(readRDS("data_jeux_code_html.rds"), c("Name" = "Name"))
+df2 <- df2[!duplicated(cbind(df2$Name,
+                             df2$platform)),]
+```
+
+```{r}
+df2 %>% slice(1) %>% 
+  pull(code_html)
+```
+
+
+```{r}
+"<h1>FIFA 21: Beckham Edition</h1><br></br><table class=\"pct100\"><tbody><tr valign=\"top\"><td width=\"1%\"><div id=\"coreGameCover\"> <img alt=\"FIFA 21: Beckham Edition Xbox Series Front Cover\" border=\"0\" height=\"180\" src=\"https://www.mobygames.com/images/covers/s/704514-fifa-21-beckham-edition-xbox-series-front-cover.jpg\" width=\"120\"/></div></td><td width=\"48%\"><div id=\"coreGameRelease\"> <div style=\"font-size: 100%; font-weight: bold;\">Published by</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Electronic Arts, Inc. </div> <div style=\"font-size: 100%; font-weight: bold;\">Developed by</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Electronic Arts Romania SRL, Electronic Arts Vancouver </div> <div style=\"font-size: 100%; font-weight: bold;\">Released</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Dec 03, 2020 </div> <div style=\"font-size: 100%; font-weight: bold;\">Platforms</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> PlayStation 5, Xbox Series </div> </div></td><td width=\"48%\"><div id=\"coreGameGenre\"><div> <div style=\"font-size: 100%; font-weight: bold;\">Genre</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Simulation, Special edition, Sports </div> <div style=\"font-size: 100%; font-weight: bold;\">Gameplay</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Managerial / business simulation </div> <div style=\"font-size: 100%; font-weight: bold;\">Perspective</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Diagonal-down </div> <div style=\"font-size: 100%; font-weight: bold;\">Edition</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Extra content / game </div> <div style=\"font-size: 100%; font-weight: bold;\">Visual</div>
+              <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> 2D scrolling </div> <div style=\"font-size: 100%; font-weight: bold;\">Misc</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Licensed </div> </div></td></tr></tbody></table>"
+```
+
+```{r}
+"<h1>FIFA 21: Beckham Edition</h1><br></br>
+
+
+<table class=\"pct100\"><tbody><tr valign=\"top\">
+  <td width=\"1%\">
+  <div id=\"coreGameCover\"> 
+    <img alt=\"FIFA 21: Beckham Edition Xbox Series Front Cover\" border=\"0\" height=\"180\" src=\"https://www.mobygames.com/images/covers/s/704514-fifa-21-beckham-edition-xbox-series-front-cover.jpg\" width=\"120\"/>
+  </div>
+  </td>
+  <td width=\"48%\">
+  <div id=\"coreGameRelease\"> 
+    <div style=\"font-size: 100%; font-weight: bold;\">Published by
+    </div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Electronic Arts, Inc. </div> <div style=\"font-size: 100%; font-weight: bold;\">Developed by</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Electronic Arts Romania SRL, Electronic Arts Vancouver </div> <div style=\"font-size: 100%; font-weight: bold;\">Released</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Dec 03, 2020 </div> <div style=\"font-size: 100%; font-weight: bold;\">Platforms</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> PlayStation 5, Xbox Series </div> 
+  </div>
+  </td>
+  <td width=\"48%\">
+    <div id=\"coreGameGenre\">
+      <div> <div style=\"font-size: 100%; font-weight: bold;\">Genre</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Simulation, Special edition, Sports </div> <div style=\"font-size: 100%; font-weight: bold;\">Gameplay</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Managerial / business simulation </div> <div style=\"font-size: 100%; font-weight: bold;\">Perspective</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Diagonal-down </div> <div style=\"font-size: 100%; font-weight: bold;\">Edition</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Extra content / game </div> <div style=\"font-size: 100%; font-weight: bold;\">Visual</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> 2D scrolling </div> <div style=\"font-size: 100%; font-weight: bold;\">Misc</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Licensed </div> </div></td></tr></tbody></table>"
+```
+
+```{r}
+"<h1>Armored Encounter! / Sub Chase!</h1><br></br><td style = \"float:left; display: inline-block; width: 33%;\" width=\"1%\"><div id=\"coreGameCover\" style = \"float:left; display: inline-block; width: 25%;\"> <div> <img alt=\"Armored Encounter! / Sub Chase! Odyssey 2 Front Cover\" border=\"0\" height=\"156\" src=\"https://www.mobygames.com/images/covers/s/161381-armored-encounter-sub-chase-odyssey-2-front-cover.jpg\" width=\"120\"/>
+</div></div></td><td  style = \"float:left; display: inline-block;  width: 35%;\" width=\"48%\"><div id=\"coreGameRelease\" style = \"float:left; display: inline-block; width: 35%;\"> <div style=\"font-size: 100%; font-weight: bold;\">Published by</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Magnavox </div> <div style=\"font-size: 100%; font-weight: bold;\">Developed by</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Magnavox </div> <div style=\"font-size: 100%; font-weight: bold;\">Released</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> 1978 </div> <div style=\"font-size: 100%; font-weight: bold;\">Platforms</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Odyssey 2 </div> </div></td><td  style = \"float:left; display: inline-block; width: 33%;\" width=\"48%\"><div id=\"coreGameGenre\" style = \"float:left; display: inline-block; width: 33%;\"> <div style=\"font-size: 100%; font-weight: bold;\">Genre</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Action, Compilation </div> <div style=\"font-size: 100%; font-weight: bold;\">Perspective</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Side view, Top-down </div> <div style=\"font-size: 100%; font-weight: bold;\">Visual</div>
+              <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Fixed / flip-screen </div> </div></td>"
 ```
 
