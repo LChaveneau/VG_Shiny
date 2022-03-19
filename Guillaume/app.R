@@ -8,7 +8,7 @@
 #
 
 library(shiny)
-library(shinydashboard)
+#library(shinydashboard)
 library(showtext)
 library(bslib) #theme
 library(plotly)
@@ -33,26 +33,14 @@ my_theme <- bs_theme(
   )
 
 font_add_google(name = "Press Start 2P", family="ps2p")
-f1 <- list(
-  family = "ps2p"
-)
-
-
-a <- list(
-  title = "SALES PER SONG",
-  titlefont = f1,
-  showgrid = FALSE,
-  showticklabels = TRUE,
-  showline=TRUE,
-  tickangle = 45,
-  tickfont = f1
-)
 
 df <- read_csv('vgsales3.csv')
 df_bis<-read_csv("vgsales.csv")
 df2 <- readRDS('data_jeux_image.rds')
 df2 <- df2 %>% 
   left_join(readRDS("data_jeux_code_html.rds"), c("Name" = "Name"))
+#df2<-unique(df2)
+
 
 df <- df  %>% 
   mutate(Platform = as.factor(Platform)) %>% 
@@ -61,13 +49,13 @@ df <- df  %>%
   mutate(Publisher = as.factor(Publisher))
 df$Name<-as.character(df$Name)
 
-
+df2$platform <- gsub("Linux.*", "PC", df2$platform)
+df2$platform <- gsub("iPhone.*", "Mobile", df2$platform)
+df2<-unique(df2)
 df2 <- df2  %>% 
   mutate(platform = as.factor(platform)) %>% 
   mutate(Year = as.factor(Annee)) %>%
   mutate(Publisher = as.factor(Publisher))
-df2$platform <- gsub("Linux.*", "PC", df2$platform)
-df2$platform <- gsub("iPhone.*", "Mobile", df2$platform)
 
 data_NA = df_bis[,c(1:6, 7, 10:11)]
 data_NA <- rename.variable(data_NA, "NA_Sales", "Sales")
@@ -123,16 +111,6 @@ data_complet<-data_complet%>%
 
 # Define UI for application that draws a histogram
 ui <- fluidPage( theme = my_theme,
-  #theme = bs_theme(
-  # bg = "#e5e5e5", fg = "#0d0c0c", primary = "#dd2020",
-  #base_font = font_google("Press Start 2P"),
-  #code_font = font_google("Press Start 2P"),
-  #"font-size-base" = "0.75rem", "enable-rounded" = FALSE
-  #) %>%
-  # bs_add_rules(
-  #  '@import "https://unpkg.com/nes.css@latest/css/nes.min.css"'
-  #),
-  
   
   tags$head(
     tags$style(HTML("hr {border-top: 1px solid #000000;}"))
@@ -219,8 +197,8 @@ ui <- fluidPage( theme = my_theme,
                       sidebarLayout(
                         sidebarPanel(
                           radioButtons("type_recommandation",
-                                       label = h3("Preference by :"),
-                                       choices = list("Popularity" = "Popularite", "Sales" = "Vente"), 
+                                       label = h3("Préférence par :"),
+                                       choices = list("Popularité" = "Popularite", "Ventes" = "Vente"), 
                                        selected = "Popularite", 
                                        inline = TRUE),
                           sliderInput("years3",
@@ -252,7 +230,8 @@ ui <- fluidPage( theme = my_theme,
                                            "Sports",
                                            "Strategie",
                                            "Role_play",
-                                           "Edition_special"),
+                                           "Edition_special",
+                                           "DLC"),
                                          multiple = TRUE,
                                          options = list(dropdownParent = 'body', 
                                                         maxitems = 'null', 
@@ -272,7 +251,6 @@ ui <- fluidPage( theme = my_theme,
                         ),
                         column(8,
                                htmlOutput('desc'),
-                               style = "background-color: #D3D3D3",
                                uiOutput("lienyt"),
                                htmlOutput('desc2'),
                                style = boxStyle
@@ -291,11 +269,9 @@ ui <- fluidPage( theme = my_theme,
 
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
-  thematic::thematic_shiny()
+  #thematic::thematic_shiny()
   #bs_themer()
   ############################## Page recommendation ####################"
-  
-  
   observe({
     input$plateform1
     
@@ -430,6 +406,7 @@ server <- function(input, output, session) {
     best_choice_tableau
     
   })
+  
   ################### Page Nombre #######################################
   
   variable <- reactive({switch(input$var,
@@ -737,7 +714,7 @@ server <- function(input, output, session) {
   ################# Page Carte ##############################################
   
   updateSelectizeInput(session, "Nom",
-                       choices = c("Replace and choose a game"= "",df_bis$Name),
+                       choices = c("Replace or choose a game"= "",df_bis$Name),
                        server = TRUE)
   
   observe({
@@ -882,32 +859,18 @@ server <- function(input, output, session) {
   output$desc2 <- renderText({
   })
   
-  
   output$image <- renderText({
     
     if(is.null(input$Tablo_rows_selected) == FALSE){
       if(input$type_recommandation == "Popularite"){
         code_html <- tablo() %>%
           slice(input$Tablo_rows_selected) %>%
-          pull(code_html)
+          pull(code_html) %>% 
+          str_replace_all("48", "25")
+        
       }
       
       if(input$type_recommandation == "Vente"){
-        
-        ########Code de l'ancien tableau wiki
-        #            code_html <- tablo() %>%
-        #              slice(input$Tablo_rows_selected) %>%
-        #              pull(tableau) %>%
-        #              str_replace("<table", "<center><table") %>%
-        #              str_replace("</table>", "</table></center>") %>%
-        #              str_replace("<a class=\"image\"", "<center><a class=\"image\"") %>%
-        #              str_replace("/></a>", "/></a></center>") %>%
-        #              str_replace("<div class=\"infobox-caption\".*?</div>", "") %>% 
-        #              str_replace("<tbody>", "<tbody><tr valign=\"top\"><td width=\"1%\"><div id=\"coreGameCover\">") %>% 
-        #              str_replace("</tbody>", "</tr></tbody>") %>% 
-        #              str_replace("style=\"float: left; width: 22em;", "style=\"float: center; ; width: 45em; background-color: #FAFF52;") %>%
-        #              str_replace("style=\"font-size:125%;font-style:italic;", "style=\"font-size:200%;font-style:italic; text-align: center;
-        # ")          
         code_html <- tablo() %>%
           slice(input$Tablo_rows_selected) %>%
           pull(tableau)
@@ -915,7 +878,6 @@ server <- function(input, output, session) {
       paste0(code_html)
     }
   })
-  
   
   output$lienyt <- renderUI({
     if(is.null(input$Tablo_rows_selected) == FALSE){
