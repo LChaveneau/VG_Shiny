@@ -14,7 +14,7 @@ library(DT)
 library(fresh)
 library(bslib)
 
-boxStyle ='color:black; background-color:#DE4F53; border-radius: .1em; color:white; align:right; text-align:left; display: table-cell;'
+boxStyle ='color:black; background-color:#DE4F53; border-radius: .1em; color:white; align:right; text-align:left; display: table-cell'
 my_theme <- bs_theme(
   bg = "#e5e5e5", fg = "#0d0c0c", primary = "#dd2020",
   base_font = font_google("Press Start 2P"),
@@ -42,6 +42,9 @@ df2 <- df2  %>%
   mutate(Publisher = as.factor(Publisher)) %>% 
   mutate(Annee = as.factor(Annee)) %>% 
   mutate(platform = as.factor(platform))
+
+df2 <- df2[!duplicated(cbind(df2$Name,
+                            df2$platform)),]
 
 
 
@@ -178,8 +181,11 @@ ui <- fluidPage(theme = my_theme,
               fluidRow(
                 column(4, 
                       htmlOutput("image"),
-                      style = "background-color: #EAE7E6"
-                       ),
+                      style = "background-color: #EAE7E6;display: table;"
+                ),
+                #width: auto
+                #display: table
+                #position: relative;
                 column(8,
                        htmlOutput('desc'),
                        htmlOutput('desc2'),
@@ -511,31 +517,18 @@ server <- function(input, output) {
 
        if(is.null(input$Tablo_rows_selected) == FALSE){
          if(input$type_recommandation == "Popularite"){
-         code_html <- tablo() %>%
-           slice(input$Tablo_rows_selected) %>%
-           pull(code_html)
+          code_html <- tablo() %>%
+            slice(input$Tablo_rows_selected) %>%
+            pull(code_html) %>% 
+            str_replace_all("48", "25")
+
          }
 
          if(input$type_recommandation == "Vente"){
-            
-           ########Code de l'ancien tableau wiki
-#            code_html <- tablo() %>%
-#              slice(input$Tablo_rows_selected) %>%
-#              pull(tableau) %>%
-#              str_replace("<table", "<center><table") %>%
-#              str_replace("</table>", "</table></center>") %>%
-#              str_replace("<a class=\"image\"", "<center><a class=\"image\"") %>%
-#              str_replace("/></a>", "/></a></center>") %>%
-#              str_replace("<div class=\"infobox-caption\".*?</div>", "") %>% 
-#              str_replace("<tbody>", "<tbody><tr valign=\"top\"><td width=\"1%\"><div id=\"coreGameCover\">") %>% 
-#              str_replace("</tbody>", "</tr></tbody>") %>% 
-#              str_replace("style=\"float: left; width: 22em;", "style=\"float: center; ; width: 45em; background-color: #FAFF52;") %>%
-#              str_replace("style=\"font-size:125%;font-style:italic;", "style=\"font-size:200%;font-style:italic; text-align: center;
-# ")          
-           code_html <- tablo() %>%
-              slice(input$Tablo_rows_selected) %>%
-              pull(tableau)
-           }
+            code_html <- tablo() %>%
+               slice(input$Tablo_rows_selected) %>%
+               pull(tableau)
+            }
          paste0(code_html)
        }
      })

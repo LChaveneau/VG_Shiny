@@ -25,23 +25,23 @@ creer_html<-function(Name, image, published, developed, released, platform.y, ge
   
   if(is.na(published) == FALSE){
     valeur = paste(
-      valeur, "<div style=\"font-size: 100%; font-weight: bold;\">Published by</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",published,"</div>"
+      valeur, "<div style=\"font-size: 100%; font-weight: bold;\">Published by</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",published %>% str_replace_all("\\&nbsp;", " "),"</div>"
     )
   }
   if(is.na(developed) == FALSE){
     valeur = paste(valeur,
-                   "<div style=\"font-size: 100%; font-weight: bold;\">Developed by</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",developed,"</div>")
+                   "<div style=\"font-size: 100%; font-weight: bold;\">Developed by</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",developed %>% str_replace_all("\\&nbsp;", " "),"</div>")
   }
   
   if(is.na(released) == FALSE){
     valeur = paste(valeur,
-                   "<div style=\"font-size: 100%; font-weight: bold;\">Released</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",released,"</div>")
+                   "<div style=\"font-size: 100%; font-weight: bold;\">Released</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",released %>% str_replace_all("\\&nbsp;", " "),"</div>")
     
   }
   
   if(is.na(platform.y) == FALSE){
     valeur = paste(valeur, 
-                   "<div style=\"font-size: 100%; font-weight: bold;\">Platforms</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",platform.y,"</div>")
+                   "<div style=\"font-size: 100%; font-weight: bold;\">Platforms</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",platform.y %>% str_replace_all("\\&nbsp;", " "),"</div>")
   }
   
   valeur = paste(
@@ -51,38 +51,38 @@ creer_html<-function(Name, image, published, developed, released, platform.y, ge
   
   if(is.na(genre) == FALSE){
     valeur = paste(valeur,
-                   "<div style=\"font-size: 100%; font-weight: bold;\">Genre</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",genre,"</div>")
+                   "<div style=\"font-size: 100%; font-weight: bold;\">Genre</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",genre %>% str_replace_all("\\&nbsp;", " ") %>%  str_replace_all(" /", ","),"</div>")
   }
   
   if(is.na(gameplay) == FALSE){
     valeur = paste(valeur,
-                   "<div style=\"font-size: 100%; font-weight: bold;\">Gameplay</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",gameplay,"</div>")
+                   "<div style=\"font-size: 100%; font-weight: bold;\">Gameplay</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",gameplay %>% str_replace_all("\\&nbsp,", " ") %>%  str_replace_all(" /", ","),"</div>")
   }
   
   if(is.na(perspective) == FALSE){
     valeur = paste(valeur,
-                   "<div style=\"font-size: 100%; font-weight: bold;\">Perspective</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",perspective,"</div>")
+                   "<div style=\"font-size: 100%; font-weight: bold;\">Perspective</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",perspective %>% str_replace_all("\\&nbsp;", " "),"</div>")
   }
   
   if(is.na(setting) == FALSE){
-    valeur = paste(valeur,"<div style=\"font-size: 100%; font-weight: bold;\">Setting</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",setting,"</div>")
+    valeur = paste(valeur,"<div style=\"font-size: 100%; font-weight: bold;\">Setting</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",setting %>% str_replace_all("\\&nbsp;", " ") %>% str_replace_all(" /", ","),"</div>")
   }
   
   if(is.na(narrative) == FALSE){
-    valeur = paste(valeur,"<div style=\"font-size: 100%; font-weight: bold;\">Narrative</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",narrative,"</div>")
+    valeur = paste(valeur,"<div style=\"font-size: 100%; font-weight: bold;\">Narrative</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",narrative %>% str_replace_all("\\&nbsp;", " "),"</div>")
   }
   
   if(is.na(edition) == FALSE){
-    valeur = paste(valeur,"<div style=\"font-size: 100%; font-weight: bold;\">Edition</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",edition,"</div>")
+    valeur = paste(valeur,"<div style=\"font-size: 100%; font-weight: bold;\">Edition</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",edition %>% str_replace_all("\\&nbsp;", " "),"</div>")
   }
   
   if(is.na(visual) == FALSE){
     valeur = paste(valeur,"<div style=\"font-size: 100%; font-weight: bold;\">Visual</div>
-              <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",visual,"</div>")
+              <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",visual %>% str_replace_all("\\&nbsp;", " ") %>% str_replace_all(" /", ","),"</div>")
   }
   
   if(is.na(misc) == FALSE){
-    valeur = paste(valeur,"<div style=\"font-size: 100%; font-weight: bold;\">Misc</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",misc,"</div>")
+    valeur = paste(valeur,"<div style=\"font-size: 100%; font-weight: bold;\">Misc</div><div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\">",misc %>% str_replace_all("\\&nbsp", " "),"</div>")
   }
   
   valeur = paste(valeur,"</div></div></td></tr></tbody></table>  ")
@@ -95,7 +95,9 @@ creer_html <- Vectorize(creer_html)
 data_test <- data.test  %>% 
   mutate(code_html = creer_html(Name = Name, image = image, published = published, developed = developed, released = released, platform.y = platform.y, genre = genre, perspective = perspective, gameplay = gameplay, setting = setting, narrative = narrative, misc = misc, edition = edition, visual = visual))
 
+data_test[1400,2]
+
 data_test <- data_test %>% 
   select(Name, code_html)
 
-saveRDS(data_test, file = "C:\\Users\\Lucas\\Documents\\M2\\S2\\Big data\\Lucas\\data\\data_jeux_code_html.rds")
+saveRDS(data_test, file = "C:\\Users\\Lucas\\Documents\\M2\\S2\\Big data\\data\\data_jeux_code_html.rds")

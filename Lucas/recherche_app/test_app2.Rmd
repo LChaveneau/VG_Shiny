@@ -925,4 +925,95 @@ tchou %>%
   str_remove("<div><div style=\"font-size: 100%; font-weight: bold;\">(Artist|Programmer|Composer|Release|Designer|Writer)</div>[\\D\\d]*?</div></div></div>") %>%
   str_remove("<div><div style=\"font-size: 100%; font-weight: bold;\">(Artist|Programmer|Composer|Release|Designer|Writer)</div>[\\D\\d]*?</div></div>")
 ```
+```{r}
+"<table class=\"reviewList table table-striped table-condensed table-hover\" border=\"0\" cellpadding=\"2\" cellspacing=\"0\">
+  <colgroup><col>
+  <col>
+  <col>
+  <col>
+  <col>
+
+</colgroup><tbody>
+  <tr valign=\"top\">
+    <td class=\"left\"><a href=\"https://www.mobygames.com/game/macintosh/aliens-versus-predator-gold-edition/mobyrank\">macHOME</a></td>
+    <td class=\"center\">Macintosh</td>
+    <td class=\"center\">2001</td>
+    <td class=\"center\"><span style=\"white-space: nowrap\"><img alt=\"5 Stars\" border=\"0\" style=\"vertical-align: middle\" src=\"/images/s/1/reviews/small/star100.gif\" height=\"10\" width=\"11\"><img alt=\"5 Stars\" border=\"0\" style=\"vertical-align: middle\" src=\"/images/s/1/reviews/small/star100.gif\" height=\"10\" width=\"11\"><img alt=\"5 Stars\" border=\"0\" style=\"vertical-align: middle\" src=\"/images/s/1/reviews/small/star100.gif\" height=\"10\" width=\"11\"><img alt=\"5 Stars\" border=\"0\" style=\"vertical-align: middle\" src=\"/images/s/1/reviews/small/star100.gif\" height=\"10\" width=\"11\"><img alt=\"5 Stars\" border=\"0\" style=\"vertical-align: middle\" src=\"/images/s/1/reviews/small/star100.gif\" height=\"10\" width=\"11\"></span></td>
+    <td class=\"right\">100</td>
+  </tr>
+  <tr valign=\"top\">
+    <td class=\"left\"><a href=\"https://www.mobygames.com/game/macintosh/aliens-versus-predator-gold-edition/mobyrank\">Inside Mac Games (IMG)</a></td>
+    <td class=\"center\">Macintosh</td>
+    <td class=\"center\">Nov 29, 2001</td>
+    <td class=\"center\">8.25 out of 10</td>
+    <td class=\"right\">82</td>
+  </tr>
+  <tr valign=\"top\">
+    <td class=\"left\"><a href=\"https://www.mobygames.com/game/windows/aliens-versus-predator-gold-edition/mobyrank\">Gry Onet</a></td>
+    <td class=\"center\">Windows</td>
+    <td class=\"center\">Aug 22, 2000</td>
+    <td class=\"center\">8 out of 10</td>
+    <td class=\"right\">80</td>
+  </tr>
+  <tr valign=\"top\">
+    <td class=\"left\"><a href=\"https://www.mobygames.com/game/macintosh/aliens-versus-predator-gold-edition/mobyrank\">Mac Gamer</a></td>
+    <td class=\"center\">Macintosh</td>
+    <td class=\"center\">Nov 19, 2001</td>
+    <td class=\"center\">80 out of 100</td>
+    <td class=\"right\">80</td>
+  </tr>
+  <tr valign=\"top\">
+    <td class=\"left\"><a href=\"https://www.mobygames.com/game/macintosh/aliens-versus-predator-gold-edition/mobyrank\">All Game Guide</a></td>
+    <td class=\"center\">Macintosh</td>
+    <td class=\"center\">2001</td>
+    <td class=\"center\"><span style=\"white-space: nowrap\"><img alt=\"4 Stars\" border=\"0\" style=\"vertical-align: middle\" src=\"/images/s/1/reviews/small/star100.gif\" height=\"10\" width=\"11\"><img alt=\"4 Stars\" border=\"0\" style=\"vertical-align: middle\" src=\"/images/s/1/reviews/small/star100.gif\" height=\"10\" width=\"11\"><img alt=\"4 Stars\" border=\"0\" style=\"vertical-align: middle\" src=\"/images/s/1/reviews/small/star100.gif\" height=\"10\" width=\"11\"><img alt=\"4 Stars\" border=\"0\" style=\"vertical-align: middle\" src=\"/images/s/1/reviews/small/star100.gif\" height=\"10\" width=\"11\"><img alt=\"4 Stars\" border=\"0\" style=\"vertical-align: middle\" src=\"/images/s/1/reviews/small/star000.gif\" height=\"10\" width=\"11\"></span></td>
+    <td class=\"right\">80</td>
+  </tr>
+  <tr valign=\"top\">
+    <td class=\"left\"><a href=\"https://www.mobygames.com/game/windows/aliens-versus-predator-gold-edition/mobyrank\">Gamer's Pulse</a></td>
+    <td class=\"center\">Windows</td>
+    <td class=\"center\">May 29, 2000</td>
+    <td class=\"center\">76 out of 100</td>
+    <td class=\"right\">76</td>
+  </tr>
+  <tr valign=\"top\">
+    <td class=\"left\"><a href=\"https://www.mobygames.com/game/windows/aliens-versus-predator-gold-edition/mobyrank\">Gamesdog</a></td>
+    <td class=\"center\">Windows</td>
+    <td class=\"center\">Dec 15, 2003</td>
+    <td class=\"center\">7 out of 10</td>
+    <td class=\"right\">70</td>
+  </tr>
+  <tr valign=\"top\">
+    <td class=\"left\"><a href=\"https://www.mobygames.com/game/macintosh/aliens-versus-predator-gold-edition/mobyrank\">JeuxMac.com</a></td>
+    <td class=\"center\">Macintosh</td>
+    <td class=\"center\">Jan, 2002</td>
+    <td class=\"center\">3 out of 5</td>
+    <td class=\"right\">60</td>
+  </tr>
+  <tr valign=\"top\">
+    <td class=\"left\"><a href=\"https://www.mobygames.com/game/windows/aliens-versus-predator-gold-edition/mobyrank\">GameSpy</a></td>
+    <td class=\"center\">Windows</td>
+    <td class=\"center\">May 01, 2000</td>
+    <td class=\"center\">60 out of 100</td>
+    <td class=\"right\">60</td>
+  </tr>
+  <tr valign=\"top\">
+    <td class=\"left\"><a href=\"https://www.mobygames.com/game/windows/aliens-versus-predator-gold-edition/mobyrank\">Game Over Online</a></td>
+    <td class=\"center\">Windows</td>
+    <td class=\"center\">Apr 25, 2000</td>
+    <td class=\"center\">60 out of 100</td>
+    <td class=\"right\">60</td>
+  </tr>
+</tbody>
+</table>"
+```
+
+
+```{r}
+data_test[1,2] %>% str_replace("\&e", "")
+```
+
+```{r}
+"&e" %>% str_replace("\\&e", "")
+```
 
