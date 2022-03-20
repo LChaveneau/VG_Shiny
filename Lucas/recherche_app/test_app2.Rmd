@@ -1087,3 +1087,50 @@ df2 %>% slice(1) %>%
               <div style=\"font-size: 90%; padding-left: 1em; padding-bottom: 0.25em;\"> Fixed / flip-screen </div> </div></td>"
 ```
 
+
+```{r}
+data_jeux_image$Annee <- as.factor(data_jeux_image$Annee)
+levels((data_jeux_image$Annee))
+```
+
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+tablo <-data_jeux_image %>%
+        filter(as.numeric(as.character(Annee)) >= 1950) %>%
+        filter(as.numeric(as.character(Annee)) <= 2022)
+```
+
+
+```{r}
+df2 <- data_jeux_image
+
+df2 <- df2[!duplicated(cbind(df2$Name,
+                             df2$platform)),]
+```
+
+
+```{r}
+df2 %>% slice(1:1000) %>% 
+         select(Name:platform) %>% 
+         datatable(rownames = F,
+                          extensions = c('Select'),
+                          selection = "single",
+                          options = list(
+                            select = list(style = 'os', items = 'row'), 
+                            dom = 'tpf',
+                            ordering = F,
+                            pageLength = 10,
+                            filter = 'top',
+                            columnDefs = list(list(searchable = F, targets = c(1,2,3,4)))),
+                          escape = F)
+```
+
+```{r}
+sum(is.na(df2$Publisher))
+```
+
+
