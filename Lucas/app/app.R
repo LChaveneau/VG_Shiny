@@ -81,7 +81,7 @@ ui <- fluidPage(theme = my_theme,
   #includeCSS("www/TableStyle.css"),
 
     # Application title
-    titlePanel(title = div(img(src="title_panel.png",  height = 43, width = 100), "VideoGames", style = "background-color:#000000 ; color:white")),
+    titlePanel(title = div(img(src="title_panel.png",  height = 43, width = 100), div("VideoGames", style = "background-color:#000000 text-shadow:0 0 2px #FFFFFF,0 0 30px #FFFFFF,0px 0px 5px #FFFFFF, 0 0 150px #FFFFFF;color:#FFFFFF;"))),
     ## Page
     navbarPage("Page",
       tabPanel("Graphiques",
